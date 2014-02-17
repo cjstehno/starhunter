@@ -11,7 +11,7 @@ import java.awt.*;
 import java.io.IOException;
 
 /**
- * TODO: document
+ * Menu screen for playing or quitting the game. This is the entry screen.
  */
 public class MenuState extends BasicGameState {
 
@@ -37,6 +37,7 @@ public class MenuState extends BasicGameState {
     private Font titleFont, optionFont;
     private MenuItem selectedItem = MenuItem.PLAY;
     private Music music;
+    private Sound menuToggle, menuSelect;
 
     @Override
     public int getID(){
@@ -56,18 +57,26 @@ public class MenuState extends BasicGameState {
         music = new Music( MenuState.class.getResource( "/aud/deeper.ogg" ) );
         music.play();
         music.setVolume( 0.25f );
+
+        menuToggle = new Sound( MenuState.class.getResource( "/aud/pop_clip_in.ogg" ) );
+        menuSelect = new Sound( MenuState.class.getResource( "/aud/button_push.ogg" ) );
     }
 
     @Override
     public void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException{
         final Input input = gc.getInput();
         if( input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_UP ) ){
+            menuToggle.play();
+
             if( selectedItem == MenuItem.PLAY ){
                 selectedItem = MenuItem.QUIT;
             } else {
                 selectedItem = MenuItem.PLAY;
             }
+
         } else if( input.isKeyPressed( Input.KEY_ENTER ) ){
+            menuSelect.play();
+
             if( selectedItem == MenuItem.PLAY ){
                 sbg.enterState( GamePlayState.STATE_ID );
             } else {
