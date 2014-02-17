@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://niftygui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
+
+    <registerEffect name="move" class="de.lessvoid.nifty.effects.impl.Move" />
+
+    <screen id="start" controller="com.stehno.starhunter.menu.MenuController">
+        <layer id="layer" backgroundColor="#003f" childLayout="center">
+            <panel height="25%" width="35%" align="center" valign="center" backgroundColor="#f60f" childLayout="center" visibleToMouse="true">
+                <effect>
+                    <onStartScreen name="move" mode="in" direction="top" length="300" startDelay="0" inherit="true"/>
+                </effect>
+                <text font="fnt/verdana-48-regular.fnt" text="Hello World!" align="center" valign="center" />
+            </panel>
+        </layer>
+    </screen>
+</nifty>
