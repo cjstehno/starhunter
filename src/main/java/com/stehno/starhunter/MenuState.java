@@ -34,10 +34,14 @@ public class MenuState extends BasicGameState {
 
     private static final String TITLE = "Star Hunter";
 
+    private final ResourceManager resourceManager;
     private Font titleFont, optionFont;
     private MenuItem selectedItem = MenuItem.PLAY;
-    private Music music;
     private Sound menuToggle, menuSelect;
+
+    MenuState( final ResourceManager resourceManager ){
+        this.resourceManager = resourceManager;
+    }
 
     @Override
     public int getID(){
@@ -54,7 +58,7 @@ public class MenuState extends BasicGameState {
             e.printStackTrace();
         }
 
-        music = new Music( MenuState.class.getResource( "/aud/deeper.ogg" ) );
+        final Music music = resourceManager.getMusic( "background" );
         music.play();
         music.setVolume( 0.25f );
 
@@ -84,6 +88,18 @@ public class MenuState extends BasicGameState {
                 System.exit( 0 );
             }
         }
+
+      /*  // FIXME: also need sound and color change on mouse-over, click selects
+
+        if( input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) ){
+//            input.getMouseX()
+            // FIXME: I think I need to create a label class or something to do collsion detection
+            if( overPlay ){
+
+            } else if( overQuit ){
+
+            }
+        }*/
     }
 
     @Override

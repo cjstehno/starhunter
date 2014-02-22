@@ -8,13 +8,18 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class StarHunter extends StateBasedGame {
 
+    private final ResourceManager resourceManager;
+
     public StarHunter(){
         super( "Star Hunter" );
+
+        resourceManager = new ResourceManager( StarHunter.class.getClassLoader() );
+        resourceManager.init( "/resources.cfg" );
     }
 
     @Override
     public void initStatesList( final GameContainer gameContainer ) throws SlickException {
-        addState( new MenuState() );
+        addState( new MenuState( resourceManager ) );
         addState( new GamePlayState() );
         enterState( MenuState.STATE_ID );
     }
