@@ -1,5 +1,7 @@
 package com.stehno.starhunter
 
+import com.stehno.games.ResourceManager
+import com.stehno.games.Resources
 import org.newdawn.slick.AppGameContainer
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.SlickException
@@ -10,18 +12,24 @@ import org.newdawn.slick.state.StateBasedGame
  */
 class StarHunter  extends StateBasedGame {
 
-    //private final ResourceManager resourceManager
+    private final ResourceManager resourceManager
 
     StarHunter(){
         super( "Star Hunter" )
 
-        //resourceManager = new ResourceManager( StarHunter.class.getClassLoader() )
-        //resourceManager.init( "/resources.cfg" )
+        resourceManager = new ResourceManager(
+            StarHunter.class.getClassLoader(),
+            Resources.loaders {
+                audio 'background', 'deeper.ogg'
+                audio 'menu-toggle', 'pop_clip_in.ogg'
+                audio 'menu-select', 'button_push.ogg'
+            }
+        )
     }
 
     @Override
     void initStatesList( final GameContainer gameContainer ) throws SlickException {
-        addState( new MenuState( /*resourceManager*/ ) )
+        addState( new MenuState( resourceManager:resourceManager ) )
         addState( new GamePlayState() )
         enterState( MenuState.STATE_ID )
     }

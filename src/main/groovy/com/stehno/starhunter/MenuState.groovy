@@ -1,5 +1,6 @@
 package com.stehno.starhunter
 
+import com.stehno.games.ResourceManager
 import org.newdawn.slick.Color
 import org.newdawn.slick.Font
 import org.newdawn.slick.GameContainer
@@ -19,7 +20,9 @@ import java.awt.FontFormatException
  */
 class MenuState extends BasicGameState {
 
-    static final int STATE_ID = 100;
+    static final int STATE_ID = 100
+
+    ResourceManager resourceManager
 
     private static enum MenuItem {
         PLAY("Play"),
@@ -38,14 +41,9 @@ class MenuState extends BasicGameState {
 
     private static final String TITLE = "Star Hunter";
 
-    //private final ResourceManager resourceManager;
-    private Font titleFont, optionFont;
-    private MenuItem selectedItem = MenuItem.PLAY;
-    private Sound menuToggle, menuSelect;
-
-    MenuState( /*final ResourceManager resourceManager*/ ){
-        //this.resourceManager = resourceManager;
-    }
+    private Font titleFont, optionFont
+    private MenuItem selectedItem = MenuItem.PLAY
+    private Sound menuToggle, menuSelect
 
     @Override
     public int getID(){
@@ -62,13 +60,12 @@ class MenuState extends BasicGameState {
             e.printStackTrace();
         }
 
-        //final Music music = resourceManager.getMusic( "background" );
-        final Music music = new Music( MenuState.class.getResource("/aud/deeper.ogg") );
+        final Music music = resourceManager.loadMusic( 'background' )
         music.play();
         music.setVolume( 0.25f );
 
-        menuToggle = new Sound( MenuState.class.getResource( "/aud/pop_clip_in.ogg" ) );
-        menuSelect = new Sound( MenuState.class.getResource( "/aud/button_push.ogg" ) );
+        menuToggle = resourceManager.loadSound( 'menu-toggle' )
+        menuSelect = resourceManager.loadSound( 'menu-select' )
     }
 
     @Override

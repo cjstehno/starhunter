@@ -38,6 +38,9 @@ dependencies {
     compile 'org.jcraft:jorbis:0.0.17'
 
     compile 'org.newdawn.slick:slick:0.1' // had to add by hand
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.mockito:mockito-all:1.9.5'
 }
 
 task unpackNatives( dependsOn:build ){
