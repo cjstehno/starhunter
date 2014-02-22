@@ -13,13 +13,13 @@ public class StarHunter extends StateBasedGame {
     public StarHunter(){
         super( "Star Hunter" );
 
-        resourceManager = new ResourceManager( StarHunter.class.getClassLoader() );
-        resourceManager.init( "/resources.cfg" );
+        //resourceManager = new ResourceManager( StarHunter.class.getClassLoader() );
+        //resourceManager.init( "/resources.cfg" );
     }
 
     @Override
     public void initStatesList( final GameContainer gameContainer ) throws SlickException {
-        addState( new MenuState( resourceManager ) );
+        addState( new MenuState( /*resourceManager*/ ) );
         addState( new GamePlayState() );
         enterState( MenuState.STATE_ID );
     }

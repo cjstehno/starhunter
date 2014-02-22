@@ -34,13 +34,13 @@ public class MenuState extends BasicGameState {
 
     private static final String TITLE = "Star Hunter";
 
-    private final ResourceManager resourceManager;
+    //private final ResourceManager resourceManager;
     private Font titleFont, optionFont;
     private MenuItem selectedItem = MenuItem.PLAY;
     private Sound menuToggle, menuSelect;
 
-    MenuState( final ResourceManager resourceManager ){
-        this.resourceManager = resourceManager;
+    MenuState( /*final ResourceManager resourceManager*/ ){
+        //this.resourceManager = resourceManager;
     }
 
     @Override
@@ -58,7 +58,8 @@ public class MenuState extends BasicGameState {
             e.printStackTrace();
         }
 
-        final Music music = resourceManager.getMusic( "background" );
+        //final Music music = resourceManager.getMusic( "background" );
+        final Music music = new Music( MenuState.class.getResourceAsStream("/aud/deeper.ogg") );
         music.play();
         music.setVolume( 0.25f );
 

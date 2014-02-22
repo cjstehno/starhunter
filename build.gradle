@@ -13,6 +13,7 @@ compileJava {
 	
 	doLast {
         project.unpackNatives.execute()
+		project.copyNatives.execute()
     }
 }
 
@@ -37,32 +38,33 @@ dependencies {
 	compile 'org.newdawn.slick:slick:0.1' // had to add by hand
 }
 
-task unpackNatives(){
+task unpackNatives( dependsOn:build ){
     // FIXME: be nice to report up-to-date status
     // FIXME: add external place to configure the native jars to search (config)
     // FIXME: clean build wipes out natives for some reason but build works
 
     mkdir file("build/natives/$platform")
-    logger.lifecycle 'Unpacking ({}) native libraries into {}...', platform, file("build/natives/$platform")
-
-    logger.lifecycle "Exists: {}", file("build/natives/$platform").exists()
+    logger.info 'Unpacking ({}) native libraries into {}...', platform, file("build/natives/$platform")
 
     // annoying side-effect of GStrings
     def natives = project.nativeJars*.toString()
 
     files( configurations.compile ).findAll { jf-> jf.name in natives }.each { njf->
-        logger.lifecycle 'Unpacking {}...', njf
+        logger.info 'Unpacking {}...', njf
 
         JarFile jarFile = new JarFile(njf)
         jarFile.entries().findAll { JarEntry je-> je.name.endsWith(nativeExt) }.each { JarEntry jef->
-            logger.lifecycle 'Unpacking: {}', jef.name
+            logger.info 'Unpacking: {}', jef.name
             file("build/natives/$platform/${jef.name}").bytes = jarFile.getInputStream(jef).bytes
-
-            logger.lifecycle " - exists: {}, not-empty: {}", file("build/natives/$platform/${jef.name}").exists(), file("build/natives/$platform/${jef.name}").length()>0
         }
     }
+}
 
-    logger.lifecycle 'Native libraries unpacked.'
+task copyNatives( type:Copy ){
+	logger.info 'Copying loose natives...'
+	
+    from "natives/$platform"
+    into "build/natives/$platform"
 }
 
 run {
