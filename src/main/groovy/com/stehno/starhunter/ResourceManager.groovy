@@ -1,23 +1,17 @@
-package com.stehno.starhunter;
+package com.stehno.starhunter
 
-import org.codehaus.groovy.jsr223.GroovyScriptEngineFactory;
-import org.newdawn.slick.Music;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.util.DefaultLogSystem;
-import org.newdawn.slick.util.LogSystem;
+import org.codehaus.groovy.jsr223.GroovyScriptEngineFactory
+import org.newdawn.slick.Music
+import org.newdawn.slick.SlickException
+import org.newdawn.slick.util.DefaultLogSystem
+import org.newdawn.slick.util.LogSystem
 
-import javax.script.ScriptEngine;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-
+import javax.script.ScriptEngine
 
 /**
  * A simple abstraction for resource loading with standardized file locations.
  */
-public class ResourceManager {
+class ResourceManager {
     // FIXME: support for non-preloaded resources
 
     private static final LogSystem log = new DefaultLogSystem();
@@ -39,10 +33,8 @@ public class ResourceManager {
             }
         } );
 
-        try ( final Reader reader = new InputStreamReader( classLoader.getResourceAsStream( "" ) )){
+        new InputStreamReader( classLoader.getResourceAsStream( "" ) ).withReader { reader->
             engine.eval( reader );
-        } catch( Exception ex ){
-            ex.printStackTrace();
         }
     }
 

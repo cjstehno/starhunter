@@ -1,18 +1,18 @@
-package com.stehno.starhunter;
+package com.stehno.starhunter
 
-import org.newdawn.slick.Color;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.Color
+import org.newdawn.slick.GameContainer
+import org.newdawn.slick.Graphics
+import org.newdawn.slick.SlickException
+import org.newdawn.slick.state.BasicGameState
+import org.newdawn.slick.state.StateBasedGame
 
 /**
- * FIXME: document
+ * The game state for the main game play screen.
  */
-public class GamePlayState extends BasicGameState {
+class GamePlayState  extends BasicGameState {
 
-    static int STATE_ID = 2;
+    static int STATE_ID = 2
 
     @Override
     public int getID(){
@@ -35,3 +35,4 @@ public class GamePlayState extends BasicGameState {
         g.drawString( "Game Play Time!", 200, 200 );
     }
 }
+

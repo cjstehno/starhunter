@@ -1,19 +1,23 @@
-package com.stehno.starhunter;
+package com.stehno.starhunter
 
-import org.newdawn.slick.*;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.BasicGameState;
-import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.Color
+import org.newdawn.slick.Font
+import org.newdawn.slick.GameContainer
+import org.newdawn.slick.Graphics
+import org.newdawn.slick.Input
+import org.newdawn.slick.Music
+import org.newdawn.slick.SlickException
+import org.newdawn.slick.Sound
+import org.newdawn.slick.TrueTypeFont
+import org.newdawn.slick.state.BasicGameState
+import org.newdawn.slick.state.StateBasedGame
 
-import java.awt.*;
-import java.io.IOException;
+import java.awt.FontFormatException
 
 /**
- * Menu screen for playing or quitting the game. This is the entry screen.
+ * Game state for the main menu screen.
  */
-public class MenuState extends BasicGameState {
+class MenuState extends BasicGameState {
 
     static final int STATE_ID = 100;
 
@@ -127,3 +131,4 @@ public class MenuState extends BasicGameState {
         graphics.drawString( MenuItem.QUIT.getLabel(), quitX, 350 );
     }
 }
+

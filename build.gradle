@@ -19,7 +19,8 @@ compileJava {
 
 ext {
     nativeJars = [
-        "lwjgl-platform-${lwjglVersion}-natives-${platform}.jar"
+        "lwjgl-platform-${lwjglVersion}-natives-${platform}.jar",
+        "jinput-platform-${jInputVersion}-natives-${platform}.jar",
     ]
 }
 
