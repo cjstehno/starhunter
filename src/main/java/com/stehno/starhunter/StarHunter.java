@@ -8,7 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class StarHunter extends StateBasedGame {
 
-    private final ResourceManager resourceManager;
+    //private final ResourceManager resourceManager;
 
     public StarHunter(){
         super( "Star Hunter" );

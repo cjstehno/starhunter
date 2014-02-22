@@ -59,7 +59,7 @@ public class MenuState extends BasicGameState {
         }
 
         //final Music music = resourceManager.getMusic( "background" );
-        final Music music = new Music( MenuState.class.getResourceAsStream("/aud/deeper.ogg") );
+        final Music music = new Music( MenuState.class.getResource("/aud/deeper.ogg") );
         music.play();
         music.setVolume( 0.25f );
 

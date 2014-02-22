@@ -10,7 +10,7 @@ apply plugin:'application'
 compileJava {
 	sourceCompatibility = '1.7'
 	targetCompatibility = '1.7'
-	
+
 	doLast {
         project.unpackNatives.execute()
 		project.copyNatives.execute()
@@ -32,10 +32,11 @@ repositories {
 
 dependencies {
 	compile 'org.codehaus.groovy:groovy-all:2.2.1'
-            
-	compile "org.lwjgl.lwjgl:lwjgl:$lwjglVersion"
 
-	compile 'org.newdawn.slick:slick:0.1' // had to add by hand
+	compile "org.lwjgl.lwjgl:lwjgl:$lwjglVersion"
+    compile 'org.jcraft:jorbis:0.0.17'
+
+    compile 'org.newdawn.slick:slick:0.1' // had to add by hand
 }
 
 task unpackNatives( dependsOn:build ){
@@ -62,7 +63,7 @@ task unpackNatives( dependsOn:build ){
 
 task copyNatives( type:Copy ){
 	logger.info 'Copying loose natives...'
-	
+
     from "natives/$platform"
     into "build/natives/$platform"
 }
