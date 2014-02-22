@@ -4,7 +4,7 @@ import java.util.jar.JarFile
 group = 'com.stehno'
 version = '0.1-SNAPSHOT'
 
-apply plugin:'java'
+apply plugin:'groovy'
 apply plugin:'application'
 
 compileJava {
@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-	compile 'org.codehaus.groovy:groovy-all:2.2.1'
+	compile 'org.codehaus.groovy:groovy-all:2.2.1:indy'
 
 	compile "org.lwjgl.lwjgl:lwjgl:$lwjglVersion"
     compile 'org.jcraft:jorbis:0.0.17'
