@@ -1,0 +1,72 @@
+import java.util.jar.JarEntry
+import java.util.jar.JarFile
+
+group = 'com.stehno'
+version = '0.1-SNAPSHOT'
+
+apply plugin:'java'
+apply plugin:'application'
+
+compileJava {
+	sourceCompatibility = '1.7'
+	targetCompatibility = '1.7'
+	
+	doLast {
+        project.unpackNatives.execute()
+    }
+}
+
+ext {
+    nativeJars = [
+        "lwjgl-platform-${lwjglVersion}-natives-${platform}.jar"
+    ]
+}
+
+mainClassName = 'com.stehno.starhunter.StarHunter'
+
+repositories {
+	mavenLocal()
+	jcenter()
+}
+
+dependencies {
+	compile 'org.codehaus.groovy:groovy-all:2.2.1'
+            
+	compile "org.lwjgl.lwjgl:lwjgl:$lwjglVersion"
+
+	compile 'org.newdawn.slick:slick:0.1' // had to add by hand
+}
+
+task unpackNatives(){
+    // FIXME: be nice to report up-to-date status
+    // FIXME: add external place to configure the native jars to search (config)
+    // FIXME: clean build wipes out natives for some reason but build works
+
+    mkdir file("build/natives/$platform")
+    logger.lifecycle 'Unpacking ({}) native libraries into {}...', platform, file("build/natives/$platform")
+
+    logger.lifecycle "Exists: {}", file("build/natives/$platform").exists()
+
+    // annoying side-effect of GStrings
+    def natives = project.nativeJars*.toString()
+
+    files( configurations.compile ).findAll { jf-> jf.name in natives }.each { njf->
+        logger.lifecycle 'Unpacking {}...', njf
+
+        JarFile jarFile = new JarFile(njf)
+        jarFile.entries().findAll { JarEntry je-> je.name.endsWith(nativeExt) }.each { JarEntry jef->
+            logger.lifecycle 'Unpacking: {}', jef.name
+            file("build/natives/$platform/${jef.name}").bytes = jarFile.getInputStream(jef).bytes
+
+            logger.lifecycle " - exists: {}, not-empty: {}", file("build/natives/$platform/${jef.name}").exists(), file("build/natives/$platform/${jef.name}").length()>0
+        }
+    }
+
+    logger.lifecycle 'Native libraries unpacked.'
+}
+
+run {
+    systemProperties = [
+        'java.library.path': file("build/natives/$platform")
+    ]
+}
