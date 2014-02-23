@@ -6,6 +6,7 @@ import org.junit.Test
 
 class ResourceManagerTest {
     // FIXME: this test is based on the StarHunter game - remove dependency
+    // TODO: the ignored tests require an opengl context, might need a light environment.
 
     private ResourceManager resourceManager
 
@@ -17,6 +18,7 @@ class ResourceManagerTest {
                 audio 'menu-toggle', 'pop_clip_in.ogg'
                 audio 'menu-select', 'button_push.ogg'
                 image 'something', 'background.png'
+                font  'spacy', 'Earth_Kid.ttf'
             }
         )
     }
@@ -26,7 +28,10 @@ class ResourceManagerTest {
         assert resourceManager.loadSound( 'menu-toggle' )
     }
 
-    // TODO: requires an opengl context in thread - see what I can do about it
+    @Test @Ignore void 'font loading'(){
+        assert resourceManager.loadFont( 'spacy', 20f )
+    }
+
     @Test @Ignore void 'image loading'(){
         assert resourceManager.loadImage( 'something' )
     }
@@ -41,5 +46,9 @@ class ResourceManagerTest {
 
     @Test(expected=MissingResourceException) void 'load missing image'(){
         resourceManager.loadImage( 'not-there' )
+    }
+
+    @Test(expected=MissingResourceException) @Ignore void 'load missing font'(){
+        resourceManager.loadFont( 'not-there', 25f )
     }
 }

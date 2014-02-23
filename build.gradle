@@ -43,6 +43,10 @@ dependencies {
     testCompile 'org.mockito:mockito-all:1.9.5'
 }
 
+test {
+    systemProperty 'java.library.path', file( "build/natives/$platform" )
+}
+
 task unpackNatives( dependsOn:build ){
     // FIXME: be nice to report up-to-date status
     // FIXME: add external place to configure the native jars to search (config)

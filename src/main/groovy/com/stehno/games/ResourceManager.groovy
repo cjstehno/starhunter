@@ -1,11 +1,12 @@
 package com.stehno.games
-import org.newdawn.slick.Image
-import org.newdawn.slick.Music
-import org.newdawn.slick.Sound
+
+import org.newdawn.slick.*
+
 /**
  * A simple abstraction for resource loading with standardized file locations.
  */
 class ResourceManager {
+    // TODO: pull out an interface for this
 
     private final ClassLoader classLoader
     private final Resources resources
@@ -25,6 +26,16 @@ class ResourceManager {
 
     Image loadImage( final String name ){
         new Image( loadStream( resources.imageLoaders, name ), name, false )
+    }
+
+    Font loadFont( final String name, final float fontSize ){
+        new TrueTypeFont(
+            java.awt.Font.createFont(
+                java.awt.Font.TRUETYPE_FONT,
+                loadStream( resources.fontLoaders, name )
+            ).deriveFont( fontSize ),
+            true
+        )
     }
 
     private InputStream loadStream( final Map<String,Resource> loaders, final String name ){

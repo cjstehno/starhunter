@@ -10,11 +10,14 @@ import groovy.transform.Immutable
  *      audio 'background', 'some_sounds.ogg'
  *      image 'badguy', 'alien_sprite.png'
  * }
+ *
+ * Paths are relative to the resource root for each resource type on the classpath.
  */
 class Resources {
 
     final Map<String,Resource> audioLoaders = new HashMap<>()
     final Map<String,Resource> imageLoaders = new HashMap<>()
+    final Map<String,Resource> fontLoaders = new HashMap<>()
 
     static Resources loaders( Closure closure ){
         Resources resources = new Resources()
@@ -31,8 +34,9 @@ class Resources {
         imageLoaders[name] = new Resource( "img/$path" )
     }
 
-//    void font()// FIXME: working here
-
+    void font( final String name, final String path ){
+        fontLoaders[name] = new Resource( "fnt/$path" )
+    }
 }
 
 @Immutable

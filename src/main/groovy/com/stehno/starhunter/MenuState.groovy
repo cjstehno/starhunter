@@ -1,20 +1,13 @@
 package com.stehno.starhunter
-
 import com.stehno.games.ResourceManager
-import org.newdawn.slick.Color
-import org.newdawn.slick.Font
-import org.newdawn.slick.GameContainer
-import org.newdawn.slick.Graphics
-import org.newdawn.slick.Input
-import org.newdawn.slick.Music
-import org.newdawn.slick.SlickException
-import org.newdawn.slick.Sound
-import org.newdawn.slick.TrueTypeFont
+import org.newdawn.slick.*
 import org.newdawn.slick.state.BasicGameState
 import org.newdawn.slick.state.StateBasedGame
 
-import java.awt.FontFormatException
-
+import static com.stehno.starhunter.StarHunterResources.AUDIO_BACKGROUND
+import static com.stehno.starhunter.StarHunterResources.AUDIO_MENU_SELECT
+import static com.stehno.starhunter.StarHunterResources.AUDIO_MENU_TOGGLE
+import static com.stehno.starhunter.StarHunterResources.FONT_MAIN
 /**
  * Game state for the main menu screen.
  */
@@ -52,20 +45,15 @@ class MenuState extends BasicGameState {
 
     @Override
     public void init( final GameContainer gameContainer, final StateBasedGame stateBasedGame ) throws SlickException{
-        try {
-            final java.awt.Font rawFont = java.awt.Font.createFont( java.awt.Font.TRUETYPE_FONT, MenuState.class.getResourceAsStream( "/fnt/Earth_Kid.ttf" ) );
-            titleFont = new TrueTypeFont( rawFont.deriveFont( 55f ), true );
-            optionFont = new TrueTypeFont( rawFont.deriveFont( 32f ), true );
-        } catch( FontFormatException | IOException e ){
-            e.printStackTrace();
-        }
+        titleFont = resourceManager.loadFont( FONT_MAIN, 55f )
+        optionFont = resourceManager.loadFont( FONT_MAIN, 32f )
 
-        final Music music = resourceManager.loadMusic( 'background' )
+        final Music music = resourceManager.loadMusic( AUDIO_BACKGROUND )
         music.play();
         music.setVolume( 0.25f );
 
-        menuToggle = resourceManager.loadSound( 'menu-toggle' )
-        menuSelect = resourceManager.loadSound( 'menu-select' )
+        menuToggle = resourceManager.loadSound( AUDIO_MENU_TOGGLE )
+        menuSelect = resourceManager.loadSound( AUDIO_MENU_SELECT )
     }
 
     @Override
