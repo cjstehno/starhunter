@@ -1,13 +1,13 @@
 package com.stehno.starhunter
 import com.stehno.games.ResourceManager
+import com.stehno.games.ui.Button
+import com.stehno.games.ui.Label
 import org.newdawn.slick.*
+import org.newdawn.slick.geom.Vector2f
 import org.newdawn.slick.state.BasicGameState
 import org.newdawn.slick.state.StateBasedGame
 
-import static com.stehno.starhunter.StarHunterResources.AUDIO_BACKGROUND
-import static com.stehno.starhunter.StarHunterResources.AUDIO_MENU_SELECT
-import static com.stehno.starhunter.StarHunterResources.AUDIO_MENU_TOGGLE
-import static com.stehno.starhunter.StarHunterResources.FONT_MAIN
+import static com.stehno.starhunter.StarHunterResources.*
 /**
  * Game state for the main menu screen.
  */
@@ -32,11 +32,10 @@ class MenuState extends BasicGameState {
         }
     }
 
-    private static final String TITLE = "Star Hunter";
-
     private Font titleFont, optionFont
-    private MenuItem selectedItem = MenuItem.PLAY
     private Sound menuToggle, menuSelect
+    private Label titleLabel
+    private Button playButton, quitButton
 
     @Override
     public int getID(){
@@ -44,7 +43,7 @@ class MenuState extends BasicGameState {
     }
 
     @Override
-    public void init( final GameContainer gameContainer, final StateBasedGame stateBasedGame ) throws SlickException{
+    public void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
         titleFont = resourceManager.loadFont( FONT_MAIN, 55f )
         optionFont = resourceManager.loadFont( FONT_MAIN, 32f )
 
@@ -54,66 +53,53 @@ class MenuState extends BasicGameState {
 
         menuToggle = resourceManager.loadSound( AUDIO_MENU_TOGGLE )
         menuSelect = resourceManager.loadSound( AUDIO_MENU_SELECT )
+
+        titleLabel = new Label(
+            text: 'Star Hunter',
+            font: titleFont,
+            color: Color.red,
+            position: new Vector2f( 0, 200 )
+        )
+        titleLabel.init( gc )
+
+        playButton = new Button(
+            text: 'Play',
+            font: optionFont,
+            color: Color.gray,
+            focusColor: Color.green,
+            position: new Vector2f( 0, 300 ),
+            onClick: { cgc, cg->
+                sbg.enterState( GamePlayState.STATE_ID );
+            }
+        )
+        playButton.init( gc )
+
+        quitButton = new Button(
+            text: 'Quit',
+            font: optionFont,
+            color: Color.gray,
+            focusColor: Color.green,
+            position: new Vector2f( 0, 350 ),
+            onClick: { cgc, cg->
+                // TODO: is there something better?
+                System.exit( 0 );
+            }
+        )
+        quitButton.init( gc )
     }
 
     @Override
     public void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException{
-        final Input input = gc.getInput();
-        if( input.isKeyPressed( Input.KEY_DOWN ) || input.isKeyPressed( Input.KEY_UP ) ){
-            menuToggle.play();
-
-            if( selectedItem == MenuItem.PLAY ){
-                selectedItem = MenuItem.QUIT;
-            } else {
-                selectedItem = MenuItem.PLAY;
-            }
-
-        } else if( input.isKeyPressed( Input.KEY_ENTER ) ){
-            menuSelect.play();
-
-            if( selectedItem == MenuItem.PLAY ){
-                sbg.enterState( GamePlayState.STATE_ID );
-            } else {
-                // TODO: is there something better?
-                System.exit( 0 );
-            }
-        }
-
-      /*  // FIXME: also need sound and color change on mouse-over, click selects
-
-        if( input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) ){
-//            input.getMouseX()
-            // FIXME: I think I need to create a label class or something to do collsion detection
-            if( overPlay ){
-
-            } else if( overQuit ){
-
-            }
-        }*/
+        titleLabel.update( gc, delta )
+        playButton.update( gc, delta )
+        quitButton.update( gc, delta )
     }
 
     @Override
-    public void render( final GameContainer gameContainer, final StateBasedGame stateBasedGame, final Graphics graphics ) throws SlickException{
-        graphics.setColor( Color.red );
-        graphics.setFont( titleFont );
-
-        // TODO: this should probably be in the update method?
-        final int titleX = ( gameContainer.getWidth() - titleFont.getWidth( TITLE ) ) / 2;
-        graphics.drawString( TITLE, titleX, 200 );
-
-        graphics.setFont( optionFont );
-
-        // setup the play item
-        graphics.setColor( selectedItem == MenuItem.PLAY ? Color.green : Color.gray );
-
-        final int playX = (gameContainer.getWidth() - optionFont.getWidth( MenuItem.PLAY.getLabel() ) ) / 2;
-        graphics.drawString( MenuItem.PLAY.getLabel(), playX, 300 );
-
-        // setup the quit item
-        graphics.setColor( selectedItem == MenuItem.QUIT ? Color.green : Color.gray );
-
-        final int quitX = (gameContainer.getWidth() - optionFont.getWidth( MenuItem.QUIT.getLabel() ) ) / 2;
-        graphics.drawString( MenuItem.QUIT.getLabel(), quitX, 350 );
+    public void render( final GameContainer gc, final StateBasedGame stateBasedGame, final Graphics g ) throws SlickException{
+        titleLabel.render( gc, g )
+        playButton.render( gc, g )
+        quitButton.render( gc, g )
     }
 }
 
