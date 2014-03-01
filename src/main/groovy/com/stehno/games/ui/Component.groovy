@@ -1,18 +1,46 @@
 package com.stehno.games.ui
 
+import groovy.transform.Immutable
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
+import org.newdawn.slick.geom.Vector2f
 
 /**
- * Created by cjstehno on 2/23/14.
+ * The base class for UI components.
  */
 abstract class Component {
 
-    // TODO: might be nice to have init return an instance fo the component
-    abstract void init( final GameContainer gc ) throws SlickException
+    Box padding = Box.empty()
+    Vector2f position = new Vector2f(0f,0f)
+
+    abstract Component init( final GameContainer gc ) throws SlickException
 
     abstract void update( final GameContainer gc, final int delta ) throws SlickException
 
     abstract void render( final GameContainer gc, final Graphics g ) throws SlickException
+
+    float getWidth(){
+        padding.left + getComponentWidth() + padding.right
+    }
+
+    float getHeight(){
+        padding.top + getComponentHeight() + padding.bottom
+    }
+
+    abstract float getComponentWidth()
+
+    abstract float getComponentHeight()
+}
+
+@Immutable
+class Box {
+    float top
+    float bottom
+    float left
+    float right
+
+    static empty(){
+        new Box(0.0f, 0.0f, 0.0f, 0.0f)
+    }
 }
