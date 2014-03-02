@@ -1,13 +1,14 @@
 package com.stehno.starhunter
 import com.stehno.games.ResourceManager
-import org.newdawn.slick.GameContainer
-import org.newdawn.slick.Graphics
-import org.newdawn.slick.Image
-import org.newdawn.slick.Input
-import org.newdawn.slick.SlickException
+import org.newdawn.slick.*
 import org.newdawn.slick.geom.Vector2f
 import org.newdawn.slick.state.BasicGameState
 import org.newdawn.slick.state.StateBasedGame
+
+import static com.stehno.starhunter.StarHunterResources.AUDIO_PLAYER_MISSILE
+import static com.stehno.starhunter.StarHunterResources.IMAGE_ALIEN_SHIP
+import static com.stehno.starhunter.StarHunterResources.IMAGE_PLAYER_MISSILE
+import static com.stehno.starhunter.StarHunterResources.IMAGE_PLAYER_SHIP
 
 /**
  * The game state for the main game play screen.
@@ -19,7 +20,9 @@ class GamePlayState  extends BasicGameState {
     ResourceManager resourceManager
 
     private Image playerImage, playerMissile
+    private Image alienShip
     private Map<Image,Vector2f> playerActiveMissiles = [:]
+    private Sound playerMissileSound
     private Vector2f playerPosition
     private float playerCeiling
 
@@ -30,8 +33,11 @@ class GamePlayState  extends BasicGameState {
 
     @Override
     void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
-        playerImage = resourceManager.loadImage( StarHunterResources.IMAGE_PLAYER_SHIP ).getScaledCopy( 0.25f )
-        playerMissile = resourceManager.loadImage( StarHunterResources.IMAGE_PLAYER_MISSILE )
+        playerImage = resourceManager.loadImage( IMAGE_PLAYER_SHIP ).getScaledCopy( 0.25f )
+        playerMissile = resourceManager.loadImage( IMAGE_PLAYER_MISSILE )
+        playerMissileSound = resourceManager.loadSound( AUDIO_PLAYER_MISSILE )
+
+        alienShip = resourceManager.loadImage( IMAGE_ALIEN_SHIP ).getScaledCopy( 0.12 )
 
         playerPosition = new Vector2f( (gc.width - playerImage.width)/2, gc.height-playerImage.height-25 )
 
@@ -59,6 +65,7 @@ class GamePlayState  extends BasicGameState {
 
         // check for missile fire
         if( input.isKeyPressed( Input.KEY_SPACE ) && playerActiveMissiles.size() < 5 ){
+            playerMissileSound.play()
             float missileX = playerPosition.x + (playerImage.width / 2) - (playerMissile.width / 2) // center of ship
             float missileY = playerPosition.y                                                       // top of ship
             playerActiveMissiles[playerMissile.copy()] = new Vector2f( missileX, missileY )
@@ -81,6 +88,8 @@ class GamePlayState  extends BasicGameState {
 
     @Override
     void render( final GameContainer gc, final StateBasedGame sbg, final Graphics g ) throws SlickException{
+        g.drawImage( alienShip, 200, 200 )
+
         g.drawImage( playerImage, playerPosition.x, playerPosition.y )
 
         playerActiveMissiles.each { img, pos->

@@ -13,6 +13,8 @@ class StarHunterResources {
     static final String FONT_MAIN = 'main-font'
     static final String IMAGE_PLAYER_SHIP = 'player-ship'
     static final String IMAGE_PLAYER_MISSILE = 'player-missile'
+    static final String AUDIO_PLAYER_MISSILE = 'player-missile-sound'
+    static final String IMAGE_ALIEN_SHIP = 'alien-ship'
 
     static Resources resources(){
         Resources.loaders {
@@ -22,6 +24,8 @@ class StarHunterResources {
             font  FONT_MAIN, 'Earth_Kid.ttf'
             image IMAGE_PLAYER_SHIP, 'player_ship.png'
             image IMAGE_PLAYER_MISSILE, 'player_missile.png'
+            audio AUDIO_PLAYER_MISSILE, 'pew_pew.ogg'
+            image IMAGE_ALIEN_SHIP, 'alien.png'
         }
     }
 }
