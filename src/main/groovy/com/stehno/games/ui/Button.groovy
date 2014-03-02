@@ -7,19 +7,26 @@ import org.newdawn.slick.Input
 import org.newdawn.slick.SlickException
 
 /**
- * Created by cjstehno on 2/23/14.
+ * Simple text-based button component.
  */
 class Button extends Label {
 
     Color focusColor
     boolean inFocus
+
     Closure onClick
+    Closure onFocus
+    Closure onBlur
 
     void update( final GameContainer gc, final int delta ) throws SlickException {
         super.update( gc, delta )
 
+        boolean alreadyInFocus = inFocus
+
         if( isOver( gc.input ) ){
             inFocus = true
+
+            if( !alreadyInFocus ) onFocus?.call( gc, delta )
 
             if( gc.input.isMousePressed( Input.MOUSE_LEFT_BUTTON ) ){
                 onClick?.call( gc, delta )
@@ -27,6 +34,8 @@ class Button extends Label {
 
         } else {
             inFocus = false
+
+            if( alreadyInFocus) onBlur?.call( gc, delta )
         }
     }
 

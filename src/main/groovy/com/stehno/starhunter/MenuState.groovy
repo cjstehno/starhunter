@@ -75,7 +75,11 @@ class MenuState extends BasicGameState {
                 color: Color.gray,
                 focusColor: Color.green,
                 padding: new Box( 50, 0, 0, 0 ),
-                onClick: { cgc, cg->
+                onFocus: { cgc, del->
+                    menuToggle.play()
+                },
+                onClick: { cgc, del->
+                    menuSelect.play()
                     sbg.enterState( GamePlayState.STATE_ID );
                 }
             ).init( gc )
@@ -88,7 +92,11 @@ class MenuState extends BasicGameState {
                 color: Color.gray,
                 focusColor: Color.green,
                 padding: new Box( 50, 0, 0, 0 ),
-                onClick: { cgc, cg->
+                onFocus: { cgc, del->
+                    menuToggle.play()
+                },
+                onClick: { cgc, del->
+                    menuSelect.play()
                     // TODO: is there something better?
                     System.exit( 0 );
                 }
