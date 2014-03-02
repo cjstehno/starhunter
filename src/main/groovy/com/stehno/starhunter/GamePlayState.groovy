@@ -1,30 +1,22 @@
 package com.stehno.starhunter
 import com.stehno.games.ResourceManager
-import org.newdawn.slick.*
-import org.newdawn.slick.geom.Vector2f
+import org.newdawn.slick.GameContainer
+import org.newdawn.slick.Graphics
+import org.newdawn.slick.SlickException
 import org.newdawn.slick.state.BasicGameState
 import org.newdawn.slick.state.StateBasedGame
-
-import static com.stehno.starhunter.StarHunterResources.AUDIO_PLAYER_MISSILE
-import static com.stehno.starhunter.StarHunterResources.IMAGE_ALIEN_SHIP
-import static com.stehno.starhunter.StarHunterResources.IMAGE_PLAYER_MISSILE
-import static com.stehno.starhunter.StarHunterResources.IMAGE_PLAYER_SHIP
-
 /**
  * The game state for the main game play screen.
  */
-class GamePlayState  extends BasicGameState {
+class GamePlayState extends BasicGameState {
 
     static int STATE_ID = 2
 
     ResourceManager resourceManager
 
-    private Image playerImage, playerMissile
-    private Image alienShip
-    private Map<Image,Vector2f> playerActiveMissiles = [:]
-    private Sound playerMissileSound
-    private Vector2f playerPosition
-    private float playerCeiling
+    private Player player
+    private PlayerMissiles playerMissiles
+    private Alien alien
 
     @Override
     int getID(){
@@ -32,69 +24,30 @@ class GamePlayState  extends BasicGameState {
     }
 
     @Override
-    void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
-        playerImage = resourceManager.loadImage( IMAGE_PLAYER_SHIP ).getScaledCopy( 0.25f )
-        playerMissile = resourceManager.loadImage( IMAGE_PLAYER_MISSILE )
-        playerMissileSound = resourceManager.loadSound( AUDIO_PLAYER_MISSILE )
+    void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException {
+        player = new Player( resourceManager:resourceManager ).init( gc )
 
-        alienShip = resourceManager.loadImage( IMAGE_ALIEN_SHIP ).getScaledCopy( 0.12 )
+        playerMissiles = new PlayerMissiles( resourceManager:resourceManager, player:player ).init( gc )
 
-        playerPosition = new Vector2f( (gc.width - playerImage.width)/2, gc.height-playerImage.height-25 )
-
-        // limit the player to the bottom of the screen
-        playerCeiling = 2 * gc.height / 3
+        alien = new Alien( resourceManager:resourceManager ).init( gc )
     }
 
     @Override
     void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException{
-        Input input = gc.getInput()
+        alien.update( gc, delta )
 
-        if( playerPosition.x > 0 && input.isKeyDown( Input.KEY_LEFT ) ){
-            playerPosition.x -= 1 * delta
-        }
-        if( playerPosition.x < (gc.width-playerImage.width) && input.isKeyDown( Input.KEY_RIGHT ) ){
-            playerPosition.x += 1 * delta
-        }
+        player.update( gc, delta )
 
-        if( playerPosition.y > playerCeiling && input.isKeyDown( Input.KEY_UP ) ){
-            playerPosition.y -= 1 * delta
-        }
-        if( playerPosition.y < (gc.height-playerImage.height) && input.isKeyDown( Input.KEY_DOWN ) ){
-            playerPosition.y += 1 * delta
-        }
-
-        // check for missile fire
-        if( input.isKeyPressed( Input.KEY_SPACE ) && playerActiveMissiles.size() < 5 ){
-            playerMissileSound.play()
-            float missileX = playerPosition.x + (playerImage.width / 2) - (playerMissile.width / 2) // center of ship
-            float missileY = playerPosition.y                                                       // top of ship
-            playerActiveMissiles[playerMissile.copy()] = new Vector2f( missileX, missileY )
-        }
-
-        def outOfRange = []
-
-        // update missile locations
-        playerActiveMissiles.each { img, pos->
-            pos.y -= 2 * delta
-            if( pos.y < 0 ){
-                outOfRange << img
-            }
-        }
-
-        outOfRange.each {
-            playerActiveMissiles.remove( it )
-        }
+        playerMissiles.update( gc, delta )
     }
 
     @Override
     void render( final GameContainer gc, final StateBasedGame sbg, final Graphics g ) throws SlickException{
-        g.drawImage( alienShip, 200, 200 )
+        alien.render( gc, g )
 
-        g.drawImage( playerImage, playerPosition.x, playerPosition.y )
+        player.render( gc, g )
 
-        playerActiveMissiles.each { img, pos->
-            g.drawImage( img, pos.x, pos.y )
-        }
+        playerMissiles.render( gc, g )
     }
 }
 
