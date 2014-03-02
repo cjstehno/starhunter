@@ -20,7 +20,8 @@ class StarHunter  extends StateBasedGame {
     @Override
     void initStatesList( final GameContainer gameContainer ) throws SlickException {
         addState( new MenuState( resourceManager:resourceManager ) )
-        addState( new GamePlayState() )
+        addState( new GamePlayState( resourceManager:resourceManager ) )
+
         enterState( MenuState.STATE_ID )
     }
 
