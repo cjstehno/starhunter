@@ -12,20 +12,16 @@ class Missile extends Actor {
 
     Vector2f launcherPosition
 
-    boolean isOutOfBounds(){
-        position.y < 0
-    }
-
     @Override
     Missile init( final GameContainer gc ) throws SlickException{
-        image = resourceManager.loadImage( IMAGE_PLAYER_MISSILE )
+        aliveRenderable = resourceManager.loadImage( IMAGE_PLAYER_MISSILE )
 
         position = new Vector2f(
-            launcherPosition.x - (image.width / 2) as float,
+            launcherPosition.x - (aliveRenderable.width / 2) as float,
             launcherPosition.y
         )
 
-        bounds = new Rectangle( position.x, position.y, image.width, image.height )
+        bounds = new Rectangle( position.x, position.y, aliveRenderable.width, aliveRenderable.height )
 
         return this
     }
@@ -34,5 +30,9 @@ class Missile extends Actor {
     void update( final GameContainer gc,final int delta ) throws SlickException{
         position.y -= 2 * delta
         bounds.y -= 2 * delta
+
+        if( bounds.y < 0 ){
+            state = State.DEAD
+        }
     }
 }

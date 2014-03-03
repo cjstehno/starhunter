@@ -15,17 +15,17 @@ class Player extends Actor {
 
     Vector2f getCannonPosition(){
         new Vector2f(
-            position.x + (image.width / 2) as float,    // center of ship
+            position.x + (aliveRenderable.width / 2) as float,    // center of ship
             position.y                                  // top of the ship
         )
     }
 
     Player init( final GameContainer gc ) throws SlickException {
-        image = resourceManager.loadImage( IMAGE_PLAYER_SHIP ).getScaledCopy( 0.25f )
+        aliveRenderable = resourceManager.loadImage( IMAGE_PLAYER_SHIP ).getScaledCopy( 0.25f )
 
-        position = new Vector2f( (gc.width - image.width)/2 as float, gc.height-image.height-25 )
+        position = new Vector2f( (gc.width - aliveRenderable.width)/2 as float, gc.height-aliveRenderable.height-25 )
 
-        bounds = new Rectangle( position.x, position.y, image.width, image.height )
+        bounds = new Rectangle( position.x, position.y, aliveRenderable.width, aliveRenderable.height )
 
         // limit the player to the bottom of the screen
         ceiling = 2 * gc.height / 3
@@ -40,7 +40,7 @@ class Player extends Actor {
             position.x -= 1 * delta
             bounds.x -= 1 * delta
         }
-        if( position.x < (gc.width-image.width) && input.isKeyDown( Input.KEY_RIGHT ) ){
+        if( position.x < (gc.width-aliveRenderable.width) && input.isKeyDown( Input.KEY_RIGHT ) ){
             position.x += 1 * delta
             bounds.x += 1 * delta
         }
@@ -49,7 +49,7 @@ class Player extends Actor {
             position.y -= 1 * delta
             bounds.y -= 1 * delta
         }
-        if( position.y < (gc.height-image.height) && input.isKeyDown( Input.KEY_DOWN ) ){
+        if( position.y < (gc.height-aliveRenderable.height) && input.isKeyDown( Input.KEY_DOWN ) ){
             position.y += 1 * delta
             bounds.y += 1 * delta
         }

@@ -2,9 +2,10 @@ package com.stehno.starhunter
 import com.stehno.games.ResourceManager
 import org.newdawn.slick.*
 
-import static com.stehno.starhunter.StarHunterResources.getAUDIO_PLAYER_MISSILE
+import static com.stehno.starhunter.StarHunterResources.AUDIO_PLAYER_MISSILE
+
 /**
- * Represents and manages the player ship missiles.
+ * Manages the players missiles.
  */
 class PlayerMissiles {
 
@@ -33,10 +34,7 @@ class PlayerMissiles {
             ).init( gc )
         }
 
-        actives.each { missile->
-            missile.update( gc, delta )
-            missile.alive = !missile.outOfBounds // TODO: just have the missile do this internally
-        }
+        actives*.update( gc, delta )
 
         actives.removeAll { !it.alive }
     }
@@ -48,8 +46,8 @@ class PlayerMissiles {
     void checkCollision( final Alien alien ){
         actives.each { missile->
             if( alien.colliding( missile ) ){
-                alien.alive = false
-                missile.alive = false
+                alien.kill()
+                missile.kill()
             }
         }
     }

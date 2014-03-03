@@ -34,6 +34,13 @@ class Resources {
         imageLoaders[name] = new Resource( "img/$path" )
     }
 
+    void images( final String name, final String pathPattern, final Range range ){
+        int padding = pathPattern.count('#')
+        range.each {
+            image( "${name}_${it}", pathPattern.replace( '#'*padding, (it as String).padLeft(padding, '0') ) )
+        }
+    }
+
     void font( final String name, final String path ){
         fontLoaders[name] = new Resource( "fnt/$path" )
     }

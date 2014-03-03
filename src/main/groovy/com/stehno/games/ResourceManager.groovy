@@ -28,6 +28,12 @@ class ResourceManager {
         new Image( loadStream( resources.imageLoaders, name ), name, false )
     }
 
+    Image[] loadImages( final String name ){
+        resources.imageLoaders.findAll { key, v-> key.startsWith( name + '_' ) }.collect { key, loader->
+            new Image( loader.resolveStream( classLoader ), key, false )
+        } as Image[]
+    }
+
     Font loadFont( final String name, final float fontSize ){
         new TrueTypeFont(
             java.awt.Font.createFont(
