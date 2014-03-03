@@ -34,20 +34,23 @@ class GamePlayState extends BasicGameState {
 
     @Override
     void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException{
-        alien.update( gc, delta )
-
         player.update( gc, delta )
 
         playerMissiles.update( gc, delta )
+        playerMissiles.checkCollision( alien )
+
+        alien.update( gc, delta )
+
+        // clean up the dead
     }
 
     @Override
     void render( final GameContainer gc, final StateBasedGame sbg, final Graphics g ) throws SlickException{
-        alien.render( gc, g )
-
         player.render( gc, g )
 
         playerMissiles.render( gc, g )
+
+        alien.render( gc, g )
     }
 }
 

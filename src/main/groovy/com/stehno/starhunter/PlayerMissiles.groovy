@@ -1,11 +1,8 @@
 package com.stehno.starhunter
 import com.stehno.games.ResourceManager
 import org.newdawn.slick.*
-import org.newdawn.slick.geom.Vector2f
 
 import static com.stehno.starhunter.StarHunterResources.getAUDIO_PLAYER_MISSILE
-import static com.stehno.starhunter.StarHunterResources.getIMAGE_PLAYER_MISSILE
-
 /**
  * Represents and manages the player ship missiles.
  */
@@ -14,12 +11,10 @@ class PlayerMissiles {
     ResourceManager resourceManager
     Player player
 
-    private Map<Image,Vector2f> actives = [:]
-    private Image image
+    private Set<Missile> actives = [] as Set<Missile>
     private Sound sound
 
     PlayerMissiles init( final GameContainer gc ) throws SlickException {
-        image = resourceManager.loadImage( IMAGE_PLAYER_MISSILE )
         sound = resourceManager.loadSound( AUDIO_PLAYER_MISSILE )
 
         return this
@@ -32,31 +27,30 @@ class PlayerMissiles {
         if( input.isKeyPressed( Input.KEY_SPACE ) && actives.size() < 5 ){
             sound.play()
 
-            def cannon = player.cannonPosition
-            actives[image.copy()] = new Vector2f(
-                cannon.x - (image.width / 2) as float,
-                cannon.y
-            )
+            actives << new Missile(
+                resourceManager: resourceManager,
+                launcherPosition: player.cannonPosition
+            ).init( gc )
         }
 
-        def outOfRange = []
-
-        // update missile locations
-        actives.each { img, pos->
-            pos.y -= 2 * delta
-            if( pos.y < 0 ){
-                outOfRange << img
-            }
+        actives.each { missile->
+            missile.update( gc, delta )
+            missile.alive = !missile.outOfBounds // TODO: just have the missile do this internally
         }
 
-        outOfRange.each {
-            actives.remove( it )
-        }
+        actives.removeAll { !it.alive }
     }
 
     void render( final GameContainer gc, final Graphics g ) throws SlickException {
-        actives.each { img, pos->
-            g.drawImage( img, pos.x, pos.y )
+        actives*.render( gc, g )
+    }
+
+    void checkCollision( final Alien alien ){
+        actives.each { missile->
+            if( alien.colliding( missile ) ){
+                alien.alive = false
+                missile.alive = false
+            }
         }
     }
 }

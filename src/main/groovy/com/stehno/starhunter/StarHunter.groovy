@@ -22,7 +22,8 @@ class StarHunter  extends StateBasedGame {
         addState( new MenuState( resourceManager:resourceManager ) )
         addState( new GamePlayState( resourceManager:resourceManager ) )
 
-        enterState( MenuState.STATE_ID )
+//        enterState( MenuState.STATE_ID ) // FIXME: just for development speed
+        enterState( GamePlayState.STATE_ID )
     }
 
     static void main( final String[] args ){
