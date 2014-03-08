@@ -15,6 +15,7 @@ import static com.stehno.starhunter.StarHunterResources.IMAGES_EXPLOSION
 class Alien extends Actor {
 
     private final Random random = new Random()
+    private float speed
 
     @Override
     Alien init( final GameContainer gc ) throws SlickException {
@@ -36,7 +37,7 @@ class Alien extends Actor {
 
     @Override
     void update( final GameContainer gc, final int delta ) throws SlickException {
-        float movement = 0.5 * delta
+        float movement = speed * delta
         position.y += movement
         bounds.y += movement
 
@@ -46,7 +47,11 @@ class Alien extends Actor {
     }
 
     private void spawn( final GameContainer gc ){
-        position = new Vector2f( random.nextInt(gc.width as int) as float, 0f - aliveRenderable.height as float )
+        speed = ((random.nextInt( 4 ) + 1) as float) / 10f
+
+        float xpos = random.nextInt( (gc.width - aliveRenderable.width) as int) as float
+
+        position = new Vector2f( xpos, 0f - aliveRenderable.height as float )
         bounds = new Rectangle( position.x, position.y, aliveRenderable.width as float, aliveRenderable.height as float )
     }
 }

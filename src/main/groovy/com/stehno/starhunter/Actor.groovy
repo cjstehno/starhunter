@@ -18,10 +18,16 @@ abstract class Actor {
 
     boolean isAlive(){ state == State.ALIVE }
 
+    boolean isDead(){ state == State.DEAD }
+
     Shape getBounds(){ bounds }
 
     void kill(){
         if( state == State.ALIVE ) state = State.DYING
+    }
+
+    void destroy(){
+        state = State.DEAD
     }
 
     abstract Actor init( final GameContainer gc ) throws SlickException

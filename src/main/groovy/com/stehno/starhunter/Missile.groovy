@@ -32,7 +32,7 @@ class Missile extends Actor {
         bounds.y -= 2 * delta
 
         if( bounds.y < 0 ){
-            state = State.DEAD
+            destroy()
         }
     }
 }

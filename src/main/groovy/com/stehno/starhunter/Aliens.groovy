@@ -9,24 +9,27 @@ import org.newdawn.slick.SlickException
 class Aliens {
 
     ResourceManager resourceManager
+    int waveSize = 4
 
-    private Alien alien
+    private Set<Alien> actives = [] as Set<Alien>
 
-    Collection<Alien> actives(){
-        [alien]
-    }
+    Collection<Alien> activeAliens(){ actives }
 
     Aliens init( final GameContainer gc ) throws SlickException {
-        alien = new Alien( resourceManager:resourceManager ).init( gc )
+        waveSize.times {
+            actives << new Alien( resourceManager:resourceManager ).init( gc )
+        }
 
         return this
     }
 
     void update( final GameContainer gc, final int delta ) throws SlickException{
-        alien.update( gc, delta )
+        actives*.update( gc, delta )
+
+        actives.removeAll { it.dead }
     }
 
     void render( final GameContainer gc, final Graphics g ) throws SlickException {
-        alien.render( gc, g )
+        actives*.render( gc, g )
     }
 }

@@ -37,7 +37,7 @@ class GamePlayState extends BasicGameState {
         player.update( gc, delta )
 
         playerMissiles.update( gc, delta )
-        playerMissiles.checkCollisions( aliens.actives() )
+        playerMissiles.checkCollisions( aliens.activeAliens() )
 
         aliens.update( gc, delta )
     }
