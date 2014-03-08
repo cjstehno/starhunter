@@ -4,6 +4,17 @@ import java.util.jar.JarFile
 group = 'com.stehno'
 version = '0.1-SNAPSHOT'
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-izpack-plugin:0.2.3'
+    }
+}
+
+apply plugin:'izpack'
 apply plugin:'groovy'
 apply plugin:'application'
 
@@ -39,8 +50,14 @@ dependencies {
 
     compile 'org.newdawn.slick:slick:0.1' // had to add by hand
 
+    // Testing
+
     testCompile 'junit:junit:4.11'
     testCompile 'org.mockito:mockito-all:1.9.5'
+
+    // Installer
+
+    izpack 'org.codehaus.izpack:izpack-standalone-compiler:4.3.4'
 }
 
 test {
@@ -84,4 +101,11 @@ run {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.10'
+}
+
+izpack {
+    baseDir = file("$buildDir/install/starhunter")
+    installFile = file('src/installer/installer.xml')
+    compression = 'deflate'
+    compressionLevel = 9
 }
