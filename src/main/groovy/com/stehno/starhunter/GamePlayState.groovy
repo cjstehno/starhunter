@@ -16,7 +16,7 @@ class GamePlayState extends BasicGameState {
 
     private Player player
     private PlayerMissiles playerMissiles
-    private Alien alien
+    private Aliens aliens
 
     @Override
     int getID(){
@@ -29,7 +29,7 @@ class GamePlayState extends BasicGameState {
 
         playerMissiles = new PlayerMissiles( resourceManager:resourceManager, player:player ).init( gc )
 
-        alien = new Alien( resourceManager:resourceManager ).init( gc )
+        aliens = new Aliens( resourceManager:resourceManager ).init( gc )
     }
 
     @Override
@@ -37,11 +37,9 @@ class GamePlayState extends BasicGameState {
         player.update( gc, delta )
 
         playerMissiles.update( gc, delta )
-        playerMissiles.checkCollision( alien )
+        playerMissiles.checkCollisions( aliens.actives() )
 
-        alien.update( gc, delta )
-
-        // clean up the dead
+        aliens.update( gc, delta )
     }
 
     @Override
@@ -50,7 +48,7 @@ class GamePlayState extends BasicGameState {
 
         playerMissiles.render( gc, g )
 
-        alien.render( gc, g )
+        aliens.render( gc, g )
     }
 }
 

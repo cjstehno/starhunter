@@ -43,11 +43,13 @@ class PlayerMissiles {
         actives*.render( gc, g )
     }
 
-    void checkCollision( final Alien alien ){
+    void checkCollisions( final Collection<Alien> aliens ){
         actives.each { missile->
-            if( alien.colliding( missile ) ){
-                alien.kill()
-                missile.kill()
+            aliens.each { alien->
+                if( alien.colliding( missile ) ){
+                    alien.kill()
+                    missile.kill()
+                }
             }
         }
     }

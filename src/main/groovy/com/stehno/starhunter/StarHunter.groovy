@@ -30,6 +30,7 @@ class StarHunter  extends StateBasedGame {
         try {
             AppGameContainer agc = new AppGameContainer( new StarHunter() )
             agc.setDisplayMode( 1024, 768, false )
+            agc.setTargetFrameRate( 100 )
 
             // TODO: this should be a command line option
             agc.showFPS = true
