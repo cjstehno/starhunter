@@ -26,5 +26,5 @@ To run the built project (and start the game):
 
 or if using an installed distribution, you can run the `bin/starhunter.bat` file to start the game.
 
-> Note: this is not a production ready, nor will it ever be.
+> Note: this is not a production ready game, nor will it ever be.
 

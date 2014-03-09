@@ -109,6 +109,16 @@ applicationDistribution.from( file( "build/natives/$platform" ) ){
     into 'bin/natives/3rdparty'
 }
 
+startScripts {
+    // Need to edit the bat file for the library path - injected by installer
+    doLast {
+        windowsScript.text = windowsScript.text.replace(
+            'set DEFAULT_JVM_OPTS=',
+            'set DEFAULT_JVM_OPTS=-Djava.library.path=$INSTALL_PATH\\$NATIVE_PATH\\'
+        )
+    }
+}
+
 izpack {
     baseDir = file("$buildDir/install/starhunter")
     installFile = file('src/installer/installer.xml')
