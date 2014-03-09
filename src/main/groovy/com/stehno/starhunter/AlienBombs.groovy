@@ -3,6 +3,8 @@ import com.stehno.games.ResourceManager
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
+import org.newdawn.slick.Sound
+
 /**
  * Created by cjstehno on 3/9/14.
  */
@@ -13,9 +15,12 @@ class AlienBombs {
 
     private final Map<Alien,Bomb> actives = [:] as Map<Alien,Bomb>
     private final Random random = new Random()
+    private Sound sound
     private long lastDrop
 
     AlienBombs init( final GameContainer gc ) throws SlickException {
+        sound = resourceManager.loadSound( StarHunterResources.AUDIO_ALIEN_BOMB )
+
         return this
     }
 
@@ -28,6 +33,8 @@ class AlienBombs {
         // limit the bombing frequency (especially near bottom of screen)
         lastDrop += delta
 
+        // TODO: I think the aliens are dropping more bombs than they should be
+
         if( lastDrop > 200 ){
             aliens.activeAliens().each { alien->
                 if( alien.alive && !actives.containsKey( alien ) ){
@@ -39,6 +46,8 @@ class AlienBombs {
                             dropPosition: alien.bombBayPosition,
                             speed: alien.speed + 0.2f
                         ).init( gc )
+
+                        sound.play()
                     }
                 }
             }
