@@ -17,6 +17,16 @@ class Alien extends Actor {
     private final Random random = new Random()
     private float speed
 
+    float getSpeed(){ speed }
+
+    @SuppressWarnings( "GroovyAssignabilityCheck" )
+    Vector2f getBombBayPosition(){
+        new Vector2f(
+            position.x + (aliveRenderable.width / 2) as float,
+            (position.y) as float
+        )
+    }
+
     @Override
     Alien init( final GameContainer gc ) throws SlickException {
         aliveRenderable = new Animation(
@@ -26,7 +36,7 @@ class Alien extends Actor {
 
         dyingRenderable = new Animation(
             resourceManager.loadImages( IMAGES_EXPLOSION ),
-            100
+            50
         )
         dyingRenderable.looping = false
 

@@ -32,4 +32,14 @@ class Aliens {
     void render( final GameContainer gc, final Graphics g ) throws SlickException {
         actives*.render( gc, g )
     }
+
+
+    void checkCollisions( final Player player ){
+        actives.each { alien->
+            if( alien.colliding( player ) ){
+                alien.kill()
+                player.kill()
+            }
+        }
+    }
 }

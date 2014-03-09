@@ -22,16 +22,18 @@ class PlayerMissiles {
     }
 
     void update( final GameContainer gc, final int delta ) throws SlickException{
-        Input input = gc.getInput()
+        if( player.alive ){
+            Input input = gc.getInput()
 
-        // check for missile fire
-        if( input.isKeyPressed( Input.KEY_SPACE ) && actives.size() < 5 ){
-            sound.play()
+            // check for missile fire
+            if( input.isKeyPressed( Input.KEY_SPACE ) && actives.size() < 5 ){
+                sound.play()
 
-            actives << new Missile(
-                resourceManager: resourceManager,
-                launcherPosition: player.cannonPosition
-            ).init( gc )
+                actives << new Missile(
+                    resourceManager: resourceManager,
+                    launcherPosition: player.cannonPosition
+                ).init( gc )
+            }
         }
 
         actives*.update( gc, delta )

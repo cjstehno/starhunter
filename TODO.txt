@@ -1,8 +1,8 @@
 
 
--   aliens need to fire
--   aliens need to collide with player
 -   aliens need sounds
+
+-   what happens when player dies, how does new life start?
 
 -   should do waves or never-ending re-spawn of aliens?
 
