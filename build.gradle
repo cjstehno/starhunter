@@ -103,6 +103,12 @@ task wrapper(type: Wrapper) {
     gradleVersion = '1.10'
 }
 
+// Distribution and Installation
+
+applicationDistribution.from( file( "build/natives/$platform" ) ){
+    into 'bin/natives/3rdparty'
+}
+
 izpack {
     baseDir = file("$buildDir/install/starhunter")
     installFile = file('src/installer/installer.xml')
