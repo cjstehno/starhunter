@@ -19,12 +19,18 @@
         <langpack iso3="eng"/>
     </locale>
 
+    <variables>
+        <variable name="JDKPathPanel.skipIfValid" value="yes" />
+        <variable name="NATIVE_PATH" value="bin/natives/3rdparty"/>
+    </variables>
+
     <panels>
         <panel classname="HelloPanel"/>
         <!--<panel classname="HTMLInfoPanel"/>-->
         <!--<panel classname="LicencePanel"/>-->
         <panel classname="TargetPanel"/>
         <panel classname="JDKPathPanel"/>
+        <!--<panel classname="ShortcutPanel"/>-->
         <panel classname="SummaryPanel"/>
         <panel classname="InstallPanel"/>
         <panel classname="SimpleFinishPanel"/>
@@ -39,6 +45,9 @@
             <description>The StarHunter game.</description>
             <file src="lib/" targetdir="$INSTALL_PATH" />
             <file src="bin/" targetdir="$INSTALL_PATH" />
+            <parsable targetfile="$INSTALL_PATH/bin/starhunter.bat" os="windows" />
+            <parsable targetfile="$INSTALL_PATH/bin/starhunter" os="unix" />
+            <parsable targetfile="$INSTALL_PATH/bin/starhunter" os="mac" />
         </pack>
     </packs>
 
