@@ -9,6 +9,7 @@ import org.newdawn.slick.state.StateBasedGame
  */
 class StarHunter  extends StateBasedGame {
 
+    private static final String AUTOSTART = 'starhunter.autostart'
     private final ResourceManager resourceManager
 
     StarHunter(){
@@ -22,14 +23,24 @@ class StarHunter  extends StateBasedGame {
         addState( new MenuState( resourceManager:resourceManager ) )
         addState( new GamePlayState( resourceManager:resourceManager ) )
 
-//        enterState( MenuState.STATE_ID ) // FIXME: just for development speed
-        enterState( GamePlayState.STATE_ID )
+        if( System.getProperty( AUTOSTART ) ){
+            // Useful for development to skip the startup screen, when working on GamePlayState
+            enterState( GamePlayState.STATE_ID )
+
+        } else {
+            enterState( MenuState.STATE_ID )
+        }
     }
 
     static void main( final String[] args ){
         try {
             AppGameContainer agc = new AppGameContainer( new StarHunter() )
+
+            // TODO: support for command line options
+            // TODO: fullscreen should be default with windowed option
+            // TODO: find best supported resolutions or allow options on start
             agc.setDisplayMode( 1024, 768, false )
+
             agc.setTargetFrameRate( 100 )
 
             // TODO: this should be a command line option

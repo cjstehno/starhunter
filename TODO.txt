@@ -1,0 +1,10 @@
+
+
+-   aliens need to fire
+-   aliens need to collide with player
+-   aliens need sounds
+
+-   should do waves or never-ending re-spawn of aliens?
+
+-   need score and lives HUD (layers)
+-   need to transition to game over when player runs out of lives
