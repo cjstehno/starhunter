@@ -10,10 +10,21 @@ You can build the project using the Gradle wrapper. Simply down load the source 
 
 ```gradlew build```
 
+## Installer
+
+You can build the installer using:
+
+```gradlew installApp izPackCreateInstaller```
+
+which will create an `-installer` distribution which can be distributed and run as a standalone installer (currently works for Windows only).
+
 ## Running
 
 To run the built project (and start the game):
 
 ```gradlew run```
 
-> Note: there is no "production-ready" version at this time.
+or if using an installed distribution, you can run the `bin/starhunter.bat` file to start the game.
+
+> Note: this is not a production ready, nor will it ever be.
+
