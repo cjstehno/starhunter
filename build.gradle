@@ -17,6 +17,7 @@ buildscript {
 apply plugin:'izpack'
 apply plugin:'groovy'
 apply plugin:'application'
+apply plugin:NativesPlugin
 
 compileJava {
 	sourceCompatibility = '1.7'
@@ -24,15 +25,7 @@ compileJava {
 
 	doLast {
         project.unpackNatives.execute()
-		project.copyNatives.execute()
     }
-}
-
-ext {
-    nativeJars = [
-        "lwjgl-platform-${lwjglVersion}-natives-${platform}.jar",
-        "jinput-platform-${jInputVersion}-natives-${platform}.jar",
-    ]
 }
 
 mainClassName = 'com.stehno.starhunter.StarHunter'
@@ -64,39 +57,8 @@ test {
     systemProperty 'java.library.path', file( "build/natives/$platform" )
 }
 
-task unpackNatives( dependsOn:build ){
-    // FIXME: be nice to report up-to-date status
-    // FIXME: add external place to configure the native jars to search (config)
-    // FIXME: clean build wipes out natives for some reason but build works
-
-    mkdir file("build/natives/$platform")
-    logger.info 'Unpacking ({}) native libraries into {}...', platform, file("build/natives/$platform")
-
-    // annoying side-effect of GStrings
-    def natives = project.nativeJars*.toString()
-
-    files( configurations.compile ).findAll { jf-> jf.name in natives }.each { njf->
-        logger.info 'Unpacking {}...', njf
-
-        JarFile jarFile = new JarFile(njf)
-        jarFile.entries().findAll { JarEntry je-> je.name.endsWith(nativeExt) }.each { JarEntry jef->
-            logger.info 'Unpacking: {}', jef.name
-            file("build/natives/$platform/${jef.name}").bytes = jarFile.getInputStream(jef).bytes
-        }
-    }
-}
-
-task copyNatives( type:Copy ){
-	logger.info 'Copying loose natives...'
-
-    from "natives/$platform"
-    into "build/natives/$platform"
-}
-
 run {
-    systemProperties = [
-        'java.library.path': file("build/natives/$platform")
-    ]
+    systemProperty 'java.library.path', file( "build/natives/$platform" )
 }
 
 task wrapper(type: Wrapper) {
@@ -124,4 +86,50 @@ izpack {
     installFile = file('src/installer/installer.xml')
     compression = 'deflate'
     compressionLevel = 9
+}
+
+//
+// Natives
+//
+
+natives {
+    jars = [
+        "lwjgl-platform-${lwjglVersion}-natives-${platform}.jar",
+        "jinput-platform-${jInputVersion}-natives-${platform}.jar"
+    ]
+    libraryExtension = '.dll'
+    targetPlatform = platform
+}
+
+class NativesPlugin implements Plugin<Project> {
+    void apply(Project project) {
+        project.extensions.create( 'natives', NativesPluginExtension)
+
+        // FIXME: be nice to report up-to-date status
+        // FIXME: add external place to configure the native jars to search (config)
+        // FIXME: clean build wipes out natives for some reason but build works
+        project.task( 'unpackNatives', dependsOn:'build' ) << {
+            project.mkdir project.file("build/natives/${project.natives.targetPlatform}")
+            logger.info 'Unpacking ({}) native libraries into {}...', project.natives.targetPlatform, project.file("build/natives/${project.natives.targetPlatform}")
+
+            // annoying side-effect of GStrings
+            def nativeJars = project.natives.jars*.toString()
+
+            project.files( project.configurations.compile ).findAll { jf-> jf.name in nativeJars }.each { njf->
+                logger.info 'Unpacking {}...', njf
+
+                JarFile jarFile = new JarFile(njf)
+                jarFile.entries().findAll { JarEntry je-> je.name.endsWith(project.natives.libraryExtension) }.each { JarEntry jef->
+                    logger.info 'Unpacking: {}', jef.name
+                    project.file("build/natives/${project.natives.targetPlatform}/${jef.name}").bytes = jarFile.getInputStream(jef).bytes
+                }
+            }
+        }
+    }
+}
+
+class NativesPluginExtension {
+    Collection<String> jars
+    String libraryExtension
+    String targetPlatform
 }

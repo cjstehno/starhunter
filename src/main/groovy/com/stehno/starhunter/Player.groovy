@@ -8,7 +8,7 @@ import org.newdawn.slick.geom.Rectangle
 import org.newdawn.slick.geom.Vector2f
 
 import static com.stehno.starhunter.StarHunterResources.IMAGE_PLAYER_SHIP
-import static com.stehno.starhunter.StarHunterResources.getIMAGES_EXPLOSION
+import static com.stehno.starhunter.StarHunterResources.IMAGES_EXPLOSION
 
 /**
  * Represents the player's ship state.
