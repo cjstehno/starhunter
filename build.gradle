@@ -92,6 +92,7 @@ izpack {
 // Natives
 //
 
+
 natives {
     jars = [
         "lwjgl-platform-${lwjglVersion}-natives-${platform}.jar",
@@ -105,9 +106,6 @@ class NativesPlugin implements Plugin<Project> {
     void apply(Project project) {
         project.extensions.create( 'natives', NativesPluginExtension)
 
-        // FIXME: be nice to report up-to-date status
-        // FIXME: add external place to configure the native jars to search (config)
-        // FIXME: clean build wipes out natives for some reason but build works
         project.task( 'unpackNatives', dependsOn:'build' ) << {
             project.mkdir project.file("build/natives/${project.natives.targetPlatform}")
             logger.info 'Unpacking ({}) native libraries into {}...', project.natives.targetPlatform, project.file("build/natives/${project.natives.targetPlatform}")
