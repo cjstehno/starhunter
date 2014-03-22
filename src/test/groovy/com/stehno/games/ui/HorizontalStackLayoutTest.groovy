@@ -6,7 +6,6 @@ import org.mockito.Mock
 import org.mockito.runners.MockitoJUnitRunner
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
-import org.newdawn.slick.geom.Vector2f
 
 import static com.stehno.games.ui.Layout.HorizAlign.*
 import static org.mockito.Mockito.when
@@ -65,9 +64,7 @@ class HorizontalStackLayoutTest {
 
     private void assertComponent( final Component comp, final Layout.HorizAlign align, final float x, final float y ){
         assert layout.components[comp].halign == align
-        assert comp.position == new Vector2f( x, y )
-        assert comp.initCalled
-        assert comp.updateCalled
-        assert comp.renderCalled
+        comp.verifyPosition( x, y )
+        comp.verifyLifecycle()
     }
 }

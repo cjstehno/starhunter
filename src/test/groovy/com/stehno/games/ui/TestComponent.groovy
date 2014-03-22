@@ -3,9 +3,10 @@ package com.stehno.games.ui
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
+import org.newdawn.slick.geom.Vector2f
 
 /**
- * Created by cjstehno on 3/1/14.
+ * Simple UI component useful for unit testing.
  */
 class TestComponent extends Component {
 
@@ -29,5 +30,15 @@ class TestComponent extends Component {
     @Override
     void render( final GameContainer gc, final Graphics g ) throws SlickException{
         renderCalled = true
+    }
+
+    void verifyLifecycle(){
+        assert initCalled
+        assert updateCalled
+        assert renderCalled
+    }
+
+    void verifyPosition( final float x, final float y ){
+        assert position == new Vector2f( x, y )
     }
 }

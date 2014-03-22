@@ -32,7 +32,7 @@ class HorizontalStackLayout extends Layout {
     }
 
     @Override
-    void update( final GameContainer gc,final int delta ) throws SlickException {
+    void update( final GameContainer gc, final int delta ) throws SlickException {
         if( updatable ){
             calculatePositions( gc.width )
         }
