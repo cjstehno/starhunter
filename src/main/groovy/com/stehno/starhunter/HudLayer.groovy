@@ -12,6 +12,7 @@ import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
 
 import static com.stehno.starhunter.StarHunterResources.FONT_MAIN
+import static com.stehno.starhunter.StarHunterResources.getIMAGE_PLAYER_SHIP
 
 /**
  * Created by cjstehno on 3/23/2014.
@@ -29,12 +30,11 @@ class HudLayer extends Layer {
     Layer init( final GameContainer gc ) throws SlickException {
         font = resourceManager.loadFont( FONT_MAIN, 25f )
 
-        layout = new HorizontalCornerLayout()
+        layout = new HorizontalCornerLayout( updatable:true )
 
-        // FIXME: needs to be images of ship
         layout.addComponent(
-            new Label(
-                text:'Lives',
+            new LivesDisplay(
+                image: resourceManager.loadImage( IMAGE_PLAYER_SHIP ).getScaledCopy( 0.1f ),
                 font:font,
                 color:Color.red,
                 padding: new Box( 5f, 0f, 5f, 0f )
@@ -46,7 +46,6 @@ class HudLayer extends Layer {
             ]
         )
 
-//        FIXME: score does not properly align when it changes
         scoreLabel = new Label(
             text:'0',
             font:font,
