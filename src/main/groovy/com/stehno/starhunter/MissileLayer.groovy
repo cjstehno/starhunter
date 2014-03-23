@@ -17,6 +17,7 @@ class MissileLayer extends Layer {
 
     ResourceManager resourceManager
     Player player
+    HudLayer hudLayer // FIXME: not happy with this
 
     private Set<Missile> actives = [] as Set<Missile>
     private Sound sound
@@ -61,6 +62,8 @@ class MissileLayer extends Layer {
                     if( alien.colliding( missile ) ){
                         alien.kill()
                         missile.kill()
+
+                        hudLayer.score( 100 )
                     }
                 }
             }

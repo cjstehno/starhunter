@@ -22,6 +22,8 @@ class HudLayer extends Layer {
 
     private Layout layout
     private Font font
+    private int currentScore = 0
+    private Label scoreLabel
 
     @Override
     Layer init( final GameContainer gc ) throws SlickException {
@@ -44,14 +46,16 @@ class HudLayer extends Layer {
             ]
         )
 
-        // FIXME: needs to be current score
+//        FIXME: score does not properly align when it changes
+        scoreLabel = new Label(
+            text:'0',
+            font:font,
+            color:Color.red,
+            padding: new Box( 5f, 0f, 0f, 5f )
+        ).init( gc )
+
         layout.addComponent(
-            new Label(
-                text:'000000',
-                font:font,
-                color:Color.red,
-                padding: new Box( 5f, 0f, 0f, 5f )
-            ).init( gc ),
+            scoreLabel,
             [
                 halign:Layout.HorizAlign.RIGHT,
                 valign:Layout.VertAlign.TOP,
@@ -72,5 +76,10 @@ class HudLayer extends Layer {
     @Override
     void render( final GameContainer gc,final Graphics g ) throws SlickException {
         layout.render( gc, g )
+    }
+
+    void score( int points ){
+        currentScore += points
+        scoreLabel.text = currentScore as String
     }
 }
