@@ -18,6 +18,7 @@ class GamePlayState extends BasicGameState {
     private PlayerMissiles playerMissiles
     private Aliens aliens
     private AlienBombs alienBombs
+    private HudLayer hud
 
     @Override
     int getID(){
@@ -33,6 +34,8 @@ class GamePlayState extends BasicGameState {
         aliens = new Aliens( resourceManager:resourceManager ).init( gc )
 
         alienBombs = new AlienBombs( resourceManager:resourceManager, aliens:aliens ).init( gc )
+
+        hud = new HudLayer( resourceManager:resourceManager ).init( gc )
     }
 
     @Override
@@ -47,6 +50,8 @@ class GamePlayState extends BasicGameState {
 
         alienBombs.update( gc, delta )
         alienBombs.checkCollisions( player )
+
+        hud.update( gc, delta )
     }
 
     @Override
@@ -57,6 +62,8 @@ class GamePlayState extends BasicGameState {
 
         aliens.render( gc, g )
         alienBombs.render( gc, g )
+
+        hud.render( gc, g )
     }
 }
 

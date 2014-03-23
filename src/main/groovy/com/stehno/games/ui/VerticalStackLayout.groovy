@@ -11,6 +11,14 @@ import static com.stehno.games.ui.Layout.VertAlign.TOP
  * A UI layout which positions components one after the other from left to right.
  *
  * Added components will be centered (valign: VertAlign.MIDDLE) by default.
+ *
+ * +-----+-----+
+ * |     |     |
+ * |     |     |
+ * |  A  |  B  |
+ * |     |     |
+ * |     |     |
+ * +-----+-----+
  */
 class VerticalStackLayout extends Layout {
 

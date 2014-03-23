@@ -10,6 +10,12 @@ import static com.stehno.games.ui.Layout.HorizAlign.RIGHT
  * A UI layout which positions components one on top of the other from the top down.
  *
  * Added components will be centered (halign: HorizAlign.CENTER) by default.
+ *
+ * +----------+
+ * |    A     |
+ * +----------+
+ * |    B     +
+ * +----------+
  */
 class HorizontalStackLayout extends Layout {
 

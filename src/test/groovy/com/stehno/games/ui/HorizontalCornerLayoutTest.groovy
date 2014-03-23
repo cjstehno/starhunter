@@ -33,11 +33,6 @@ class HorizontalCornerLayoutTest {
 
         layoutLifecycle()
 
-        // FIXME: double check these numbers...
-        // FIXME: more test scenarios
-        // FIXME: address fix/todo in HCL class
-//        working here.
-
         assertComponent compA, 150f, 82.5f
         assertComponent compB, 550f, 82.5f
         assertComponent compC, 350f, 282.5f
@@ -59,6 +54,32 @@ class HorizontalCornerLayoutTest {
         assertComponent compC, 0f,   200f
         assertComponent compD, 0f,   400f
         assertComponent compE, 400f, 400f
+    }
+
+    @Test void 'layout: all bottom right aligned'(){
+        def compA = addTestComponent( id:'A', Layout.HorizAlign.RIGHT, Layout.VertAlign.BOTTOM )
+        def compB = addTestComponent( id:'B', Layout.HorizAlign.RIGHT, Layout.VertAlign.BOTTOM )
+        def compC = addTestComponent( id:'C', Layout.HorizAlign.RIGHT, Layout.VertAlign.BOTTOM )
+        def compD = addTestComponent( id:'D', Layout.HorizAlign.RIGHT, Layout.VertAlign.BOTTOM )
+        def compE = addTestComponent( id:'E', Layout.HorizAlign.RIGHT, Layout.VertAlign.BOTTOM )
+
+        layoutLifecycle()
+
+        assertComponent compA, 300f, 165f
+        assertComponent compB, 700f, 165f
+        assertComponent compC, 700f, 365f
+        assertComponent compD, 300f, 565f
+        assertComponent compE, 700f, 565f
+    }
+
+    @Test void 'layout: two in top corners'(){
+        def compA = addTestComponent( id:'A', Layout.HorizAlign.LEFT, Layout.VertAlign.TOP, HorizontalCornerLayout.Cell.TOP_LEFT )
+        def compB = addTestComponent( id:'B', Layout.HorizAlign.RIGHT, Layout.VertAlign.TOP, HorizontalCornerLayout.Cell.TOP_RIGHT )
+
+        layoutLifecycle()
+
+        assertComponent compA, 0f, 0f
+        assertComponent compB, 700f, 0f
     }
 
     private void layoutLifecycle(){

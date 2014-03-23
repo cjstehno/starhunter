@@ -24,7 +24,7 @@ class StarHunterResources {
             audio AUDIO_BACKGROUND, 'deeper.ogg'
             audio AUDIO_MENU_TOGGLE, 'pop_clip_in.ogg'
             audio AUDIO_MENU_SELECT, 'button_push.ogg'
-            font  FONT_MAIN, 'Earth_Kid.ttf'
+            font  FONT_MAIN, 'space_age.ttf'
             image IMAGE_PLAYER_SHIP, 'player_ship.png'
             image IMAGE_PLAYER_MISSILE, 'player_missile.png'
             audio AUDIO_PLAYER_MISSILE, 'pew_pew.ogg'

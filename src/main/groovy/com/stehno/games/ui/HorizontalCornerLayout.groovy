@@ -1,4 +1,6 @@
 package com.stehno.games.ui
+
+import groovy.transform.Memoized
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.SlickException
 import org.newdawn.slick.geom.Vector2f
@@ -12,9 +14,9 @@ import static com.stehno.games.ui.Layout.VertAlign.MIDDLE
  *
  * This layout supports the following constraints:
  *
- * halign - horizontal alignment of component in cell
- * valign - vertical alignment of component in cell
- * cell - the layout cell the component should reside in
+ * halign - horizontal alignment of component in cell (centered by default)
+ * valign - vertical alignment of component in cell (middle by default)
+ * cell - the layout cell the component should reside in (the next in order by default)
  *
  * +-----+-----+
  * |  A  |  B  |
@@ -67,14 +69,17 @@ class HorizontalCornerLayout extends Layout {
             this.heightCalc = heightCalc
         }
 
+        @Memoized
         Vector2f offset( int gameW, int gameH ){
             offsetCalc(gameW as float, gameH as float)
         }
 
+        @Memoized
         float width( int gameW ){
             widthCalc(gameW as float)
         }
 
+        @Memoized
         float height( int gameH ){
             heightCalc( gameH as float)
         }
@@ -128,27 +133,29 @@ class HorizontalCornerLayout extends Layout {
             Vector2f offset = cell.offset( gameWidth, gameHeight )
 
             def compEntry = components.find { k,v-> v.cell == cell }
-            def component = compEntry.key
-            def constraints = compEntry.value
+            if( compEntry ){
+                def component = compEntry.key
+                def constraints = compEntry.value
 
-            if( constraints.halign == CENTER ){
-                component.position.x = offset.x + ( cell.width( gameWidth ) - component.width )/2
+                if( constraints.halign == CENTER ){
+                    component.position.x = offset.x + ( cell.width( gameWidth ) - component.width )/2
 
-            } else if( constraints.halign == RIGHT ){
-                component.position.x = offset.x + ( cell.width( gameWidth ) - component.width )
+                } else if( constraints.halign == RIGHT ){
+                    component.position.x = offset.x + ( cell.width( gameWidth ) - component.width )
 
-            } else {
-                component.position.x = offset.x + component.padding.left
-            }
+                } else {
+                    component.position.x = offset.x + component.padding.left
+                }
 
-            if( constraints.valign == MIDDLE ){
-                component.position.y = offset.y + ( cell.height( gameHeight ) - component.height)/2
+                if( constraints.valign == MIDDLE ){
+                    component.position.y = offset.y + ( cell.height( gameHeight ) - component.height)/2
 
-            } else if( constraints.valign == BOTTOM ){
-                component.position.y = offset.y + ( cell.height( gameHeight ) - component.height)
+                } else if( constraints.valign == BOTTOM ){
+                    component.position.y = offset.y + ( cell.height( gameHeight ) - component.height)
 
-            } else {
-                component.position.y = offset.y + component.padding.top
+                } else {
+                    component.position.y = offset.y + component.padding.top
+                }
             }
         }
     }

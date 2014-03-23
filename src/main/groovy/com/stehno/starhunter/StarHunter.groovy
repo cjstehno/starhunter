@@ -44,7 +44,7 @@ class StarHunter  extends StateBasedGame {
             agc.setTargetFrameRate( 100 )
 
             // TODO: this should be a command line option
-            agc.showFPS = true
+            agc.showFPS = false
 
             agc.start();
 
