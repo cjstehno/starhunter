@@ -4,5 +4,7 @@ package com.stehno.games
  */
 abstract class Layer implements LifecycleParticipant<Layer>{
 
-
+    void checkCollisions( Layer other ){
+        // Ignore collisions by default
+    }
 }

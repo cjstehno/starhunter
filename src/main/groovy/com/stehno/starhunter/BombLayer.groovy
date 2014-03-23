@@ -1,4 +1,6 @@
 package com.stehno.starhunter
+
+import com.stehno.games.Layer
 import com.stehno.games.ResourceManager
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
@@ -6,25 +8,26 @@ import org.newdawn.slick.SlickException
 import org.newdawn.slick.Sound
 
 /**
- * Created by cjstehno on 3/9/14.
+ * Created by cjstehno on 3/23/2014.
  */
-class AlienBombs {
+class BombLayer extends Layer {
 
     ResourceManager resourceManager
-    Aliens aliens
+    AlienLayer aliens
 
     private final Map<Alien,Bomb> actives = [:] as Map<Alien,Bomb>
     private final Random random = new Random()
     private Sound sound
     private long lastDrop
 
-    AlienBombs init( final GameContainer gc ) throws SlickException {
+    @Override
+    BombLayer init( final GameContainer gc ) throws SlickException{
         sound = resourceManager.loadSound( StarHunterResources.AUDIO_ALIEN_BOMB )
-
         return this
     }
 
-    void update( final GameContainer gc, final int delta ) throws SlickException{
+    @Override
+    void update( final GameContainer gc,final int delta ) throws SlickException{
         /*
             - each alien can have one bomb in plat at a time
             - if an alien does not have an active bomb, there is a 50% chance it will drop one
@@ -66,15 +69,19 @@ class AlienBombs {
         removables.each { actives.remove(it) }
     }
 
-    void render( final GameContainer gc, final Graphics g ) throws SlickException {
+    @Override
+    void render( final GameContainer gc,final Graphics g ) throws SlickException{
         actives.values()*.render( gc, g )
     }
 
-    void checkCollisions( final Player player ){
-        actives.values().each { bomb->
-            if( bomb.colliding( player ) ){
-                bomb.kill()
-                player.kill()
+    @Override
+    void checkCollisions( final Layer other ){
+        if( other instanceof PlayerLayer ){
+            actives.values().each { bomb->
+                if( bomb.colliding( other.player ) ){
+                    bomb.kill()
+                    other.player.kill()
+                }
             }
         }
     }
