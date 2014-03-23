@@ -22,7 +22,12 @@ class Bomb extends Actor {
             dropPosition.y
         )
 
-        bounds = new Rectangle( position.x, position.y, aliveRenderable.width, aliveRenderable.height )
+        bounds = new Rectangle(
+            position.x + aliveRenderable.width/3 as float,
+            position.y + aliveRenderable.height/3 as float,
+            aliveRenderable.width/3 as float,
+            aliveRenderable.height/3 as float
+        )
 
         return this
     }

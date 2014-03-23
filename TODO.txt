@@ -1,10 +1,5 @@
-
-
--   aliens need sounds
-
--   what happens when player dies, how does new life start?
-
--   should do waves or never-ending re-spawn of aliens?
-
--   need score and lives HUD (layers)
--   need to transition to game over when player runs out of lives
+- need to handle death respawn scenario transition
+- need to handle end of wave transition
+- need to handle end of game transition
+- need sounds for explosions
+- need sounds for bomb launch
