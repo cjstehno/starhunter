@@ -13,6 +13,7 @@ class AlienLayer extends Layer {
 
     ResourceManager resourceManager
     int waveSize = 4
+    HudLayer hudLayer // FIXME: not happy with this
 
     private Set<Alien> actives = [] as Set<Alien>
 
@@ -46,6 +47,8 @@ class AlienLayer extends Layer {
                 if( alien.colliding( other.player ) ){
                     alien.kill()
                     other.player.kill()
+
+                    hudLayer.decrementLives()
                 }
             }
         }

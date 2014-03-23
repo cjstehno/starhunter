@@ -25,6 +25,7 @@ class HudLayer extends Layer {
     private Font font
     private int currentScore = 0
     private Label scoreLabel
+    private LivesDisplay livesDisplay
 
     @Override
     Layer init( final GameContainer gc ) throws SlickException {
@@ -32,13 +33,15 @@ class HudLayer extends Layer {
 
         layout = new HorizontalCornerLayout( updatable:true )
 
+        livesDisplay = new LivesDisplay(
+            image: resourceManager.loadImage( IMAGE_PLAYER_SHIP ).getScaledCopy( 0.1f ),
+            font:font,
+            color:Color.red,
+            padding: new Box( 5f, 0f, 5f, 0f )
+        ).init( gc )
+
         layout.addComponent(
-            new LivesDisplay(
-                image: resourceManager.loadImage( IMAGE_PLAYER_SHIP ).getScaledCopy( 0.1f ),
-                font:font,
-                color:Color.red,
-                padding: new Box( 5f, 0f, 5f, 0f )
-            ).init( gc ),
+            livesDisplay,
             [
                 halign:Layout.HorizAlign.LEFT,
                 valign:Layout.VertAlign.TOP,
@@ -75,6 +78,10 @@ class HudLayer extends Layer {
     @Override
     void render( final GameContainer gc,final Graphics g ) throws SlickException {
         layout.render( gc, g )
+    }
+
+    void decrementLives(){
+        livesDisplay.lives--
     }
 
     void score( int points ){

@@ -35,6 +35,8 @@ class GamePlayState extends BasicGameState {
 
         hud = new HudLayer( resourceManager:resourceManager ).init( gc )
         missileLayer.hudLayer = hud
+        alienLayer.hudLayer = hud
+        bombLayer.hudLayer = hud
     }
 
     @Override

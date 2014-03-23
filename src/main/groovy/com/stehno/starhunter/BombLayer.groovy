@@ -14,6 +14,7 @@ class BombLayer extends Layer {
 
     ResourceManager resourceManager
     AlienLayer aliens
+    HudLayer hudLayer // FIXME: not happy with this
 
     private final Map<Alien,Bomb> actives = [:] as Map<Alien,Bomb>
     private final Random random = new Random()
@@ -81,6 +82,8 @@ class BombLayer extends Layer {
                 if( bomb.colliding( other.player ) ){
                     bomb.kill()
                     other.player.kill()
+
+                    hudLayer.decrementLives()
                 }
             }
         }
