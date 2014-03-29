@@ -18,6 +18,7 @@ class GamePlayState extends BasicGameState {
     private MissileLayer missileLayer
     private AlienLayer alienLayer
     private BombLayer bombLayer
+    private StarfieldLayer starfieldLayer
     private HudLayer hud
 
     @Override
@@ -27,6 +28,8 @@ class GamePlayState extends BasicGameState {
 
     @Override
     void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException {
+        starfieldLayer = new StarfieldLayer( resourceManager:resourceManager ).init( gc )
+
         playerLayer = new PlayerLayer( resourceManager:resourceManager ).init( gc )
         missileLayer = new MissileLayer( resourceManager:resourceManager, player:playerLayer.player ).init( gc )
 
@@ -41,6 +44,8 @@ class GamePlayState extends BasicGameState {
 
     @Override
     void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException{
+        starfieldLayer.update( gc, delta )
+
         playerLayer.update( gc, delta )
 
         // FIXME: collision detection needs work - maybe outside of layers?
@@ -59,6 +64,8 @@ class GamePlayState extends BasicGameState {
 
     @Override
     void render( final GameContainer gc, final StateBasedGame sbg, final Graphics g ) throws SlickException{
+        starfieldLayer.render( gc, g )
+
         playerLayer.render( gc, g )
 
         missileLayer.render( gc, g )

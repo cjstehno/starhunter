@@ -18,6 +18,7 @@ class StarHunterResources {
     static final String IMAGES_EXPLOSION = 'explosion'
     static final String IMAGE_ALIEN_BOMB = 'alien-bomb'
     static final String AUDIO_ALIEN_BOMB = 'alien-bomb-sound'
+    static final String IMAGE_STARFIELD = 'starfield'
 
     static Resources resources(){
         Resources.loaders {
@@ -32,6 +33,7 @@ class StarHunterResources {
             images IMAGES_EXPLOSION, 'expl_06_####.png', 0..31
             image IMAGE_ALIEN_BOMB, 'bomb.png'
             audio AUDIO_ALIEN_BOMB, 'bomb_drop.ogg'
+            image IMAGE_STARFIELD, 'starfield.png'
         }
     }
 }
