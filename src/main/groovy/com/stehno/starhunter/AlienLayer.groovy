@@ -1,6 +1,9 @@
 package com.stehno.starhunter
 import com.stehno.games.Layer
 import com.stehno.games.ResourceManager
+import com.stehno.starhunter.alien.AlienModel
+import com.stehno.starhunter.player.PlayerLayer
+import com.stehno.starhunter.player.PlayerModel
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
@@ -13,22 +16,24 @@ import org.newdawn.slick.state.transition.HorizontalSplitTransition
 class AlienLayer extends Layer {
 
     ResourceManager resourceManager
-    HudLayer hudLayer
+    PlayerModel playerModel
+    AlienModel alienModel
 
     private Set<Alien> actives = [] as Set<Alien>
-    private int currentWaveSize = 4
-    private int currentWaveKilled = 0
-    private int currentWave = 1
 
     Collection<Alien> activeAliens(){ actives }
 
     @Override
     AlienLayer init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
-        currentWaveSize.times {
-            actives << new Alien( resourceManager:resourceManager ).init( gc )
-        }
+        startWave( gc )
 
         return this
+    }
+
+    void startWave( GameContainer gc ){
+        alienModel.currentWaveSize.times {
+            actives << new Alien( resourceManager: resourceManager ).init( gc )
+        }
     }
 
     @Override
@@ -37,13 +42,16 @@ class AlienLayer extends Layer {
 
         actives.removeAll { it.dead }
 
-        if( currentWaveKilled >= currentWaveSize ){
+        if( alienModel.waveComplete() ){
             // TODO: should this be out in game state?
+            // TODO: wait 1s before changing state to let anim move a bit
             sbg.enterState(
                 WaveTransitionState.STATE_ID,
                 new EmptyTransition(),
                 new HorizontalSplitTransition()
             )
+        } else if( alienModel.waveChanged() ){
+            startWave( gc )
         }
     }
 
@@ -66,7 +74,7 @@ class AlienLayer extends Layer {
 
     void killAlien( final Alien alien ){
         alien.kill()
-        hudLayer.score( 100 )
-        currentWaveKilled++
+        playerModel.score += 100
+        alienModel.currentWaveKilled++
     }
 }

@@ -1,5 +1,7 @@
 package com.stehno.starhunter
 import com.stehno.games.ResourceManager
+import com.stehno.starhunter.alien.AlienModel
+import com.stehno.starhunter.player.PlayerModel
 import org.newdawn.slick.AppGameContainer
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.SlickException
@@ -57,6 +59,14 @@ class StarHunter  extends StateBasedGame {
             resourceManager: resourceManager
         )
 
+        PlayerModel playerModel = new PlayerModel()
+        AlienModel alienModel = new AlienModel()
+
+        HudLayer hudLayer = new HudLayer(
+            resourceManager: resourceManager,
+            playerModel: playerModel
+        )
+
         addState( new MenuState(
             resourceManager: resourceManager,
             starfieldLayer: starfieldLayer
@@ -64,19 +74,25 @@ class StarHunter  extends StateBasedGame {
 
         addState( new GamePlayState(
             resourceManager: resourceManager,
-            starfieldLayer: starfieldLayer
+            starfieldLayer: starfieldLayer,
+            hudLayer: hudLayer,
+            playerModel: playerModel,
+            alienModel: alienModel
         ))
 
-        // Hud
         addState( new GameOverState(
             resourceManager: resourceManager,
-            starfieldLayer: starfieldLayer
+            starfieldLayer: starfieldLayer,
+            hudLayer: hudLayer,
+            alienModel: alienModel,
+            playerModel: playerModel
         ))
 
-        // Hud, Player
         addState( new WaveTransitionState(
             resourceManager: resourceManager,
-            starfieldLayer: starfieldLayer
+            starfieldLayer: starfieldLayer,
+            hudLayer: hudLayer,
+            alienModel: alienModel
         ))
     }
 }

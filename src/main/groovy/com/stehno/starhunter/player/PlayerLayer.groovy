@@ -1,24 +1,22 @@
-package com.stehno.starhunter
-
+package com.stehno.starhunter.player
 import com.stehno.games.Layer
 import com.stehno.games.ResourceManager
+import com.stehno.starhunter.GameOverState
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
 import org.newdawn.slick.state.StateBasedGame
 import org.newdawn.slick.state.transition.EmptyTransition
 import org.newdawn.slick.state.transition.HorizontalSplitTransition
-
 /**
  * Created by cjstehno on 3/23/2014.
  */
 class PlayerLayer extends Layer {
 
     ResourceManager resourceManager
-    HudLayer hudLayer
+    PlayerModel model
 
     private Player player
-    private int lives = 3
 
     Player getPlayer(){ player }
 
@@ -34,7 +32,7 @@ class PlayerLayer extends Layer {
 
         if( player.dead ){
             // TODO: should these be out in game state?
-            if( lives <= 0 ){
+            if( model.lives <= 0 ){
                 sbg.enterState(
                     GameOverState.STATE_ID,
                     new EmptyTransition(),
@@ -61,7 +59,6 @@ class PlayerLayer extends Layer {
 
     void killPlayer(){
         player.kill()
-        lives--
-        hudLayer.decrementLives()
+        model.lives--
     }
 }

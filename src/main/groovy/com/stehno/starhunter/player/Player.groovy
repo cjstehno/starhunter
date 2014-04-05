@@ -1,14 +1,13 @@
-package com.stehno.starhunter
+package com.stehno.starhunter.player
 
+import com.stehno.starhunter.Actor
+import com.stehno.starhunter.StarHunterResources
 import org.newdawn.slick.Animation
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Input
 import org.newdawn.slick.SlickException
 import org.newdawn.slick.geom.Rectangle
 import org.newdawn.slick.geom.Vector2f
-
-import static com.stehno.starhunter.StarHunterResources.IMAGE_PLAYER_SHIP
-import static com.stehno.starhunter.StarHunterResources.IMAGES_EXPLOSION
 
 /**
  * Represents the player's ship state.
@@ -25,10 +24,10 @@ class Player extends Actor {
     }
 
     Player init( final GameContainer gc ) throws SlickException {
-        aliveRenderable = resourceManager.loadImage( IMAGE_PLAYER_SHIP ).getScaledCopy( 0.25f )
+        aliveRenderable = resourceManager.loadImage( StarHunterResources.IMAGE_PLAYER_SHIP ).getScaledCopy( 0.25f )
 
         dyingRenderable = new Animation(
-            resourceManager.loadImages( IMAGES_EXPLOSION ),
+            resourceManager.loadImages( StarHunterResources.IMAGES_EXPLOSION ),
             50
         )
         dyingRenderable.looping = false

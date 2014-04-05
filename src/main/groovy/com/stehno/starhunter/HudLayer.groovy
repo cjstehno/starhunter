@@ -5,6 +5,7 @@ import com.stehno.games.ui.Box
 import com.stehno.games.ui.HorizontalCornerLayout
 import com.stehno.games.ui.Label
 import com.stehno.games.ui.Layout
+import com.stehno.starhunter.player.PlayerModel
 import org.newdawn.slick.Color
 import org.newdawn.slick.Font
 import org.newdawn.slick.GameContainer
@@ -21,10 +22,10 @@ import static com.stehno.starhunter.StarHunterResources.getIMAGE_PLAYER_SHIP
 class HudLayer extends Layer {
 
     ResourceManager resourceManager
+    PlayerModel playerModel
 
     private Layout layout
     private Font font
-    private int currentScore = 0
     private Label scoreLabel
     private LivesDisplay livesDisplay
 
@@ -73,20 +74,14 @@ class HudLayer extends Layer {
 
     @Override
     void update( final GameContainer gc, final StateBasedGame sbg,final int delta ) throws SlickException {
+        scoreLabel.text = playerModel.score as String
+        livesDisplay.lives = playerModel.lives
+
         layout.update( gc, sbg, delta )
     }
 
     @Override
     void render( final GameContainer gc, final StateBasedGame sbg,final Graphics g ) throws SlickException {
         layout.render( gc, sbg, g )
-    }
-
-    void decrementLives(){
-        livesDisplay.lives--
-    }
-
-    void score( int points ){
-        currentScore += points
-        scoreLabel.text = currentScore as String
     }
 }

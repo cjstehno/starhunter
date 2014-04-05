@@ -4,6 +4,8 @@ import com.stehno.games.ui.Box
 import com.stehno.games.ui.HorizontalStackLayout
 import com.stehno.games.ui.Label
 import com.stehno.games.ui.Layout
+import com.stehno.starhunter.alien.AlienModel
+import com.stehno.starhunter.player.PlayerLayer
 import org.newdawn.slick.Color
 import org.newdawn.slick.Font
 import org.newdawn.slick.GameContainer
@@ -11,6 +13,8 @@ import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
 import org.newdawn.slick.state.BasicGameState
 import org.newdawn.slick.state.StateBasedGame
+import org.newdawn.slick.state.transition.EmptyTransition
+import org.newdawn.slick.state.transition.HorizontalSplitTransition
 
 import static com.stehno.starhunter.StarHunterResources.FONT_MAIN
 /**
@@ -22,41 +26,38 @@ class WaveTransitionState extends BasicGameState {
 
     ResourceManager resourceManager
     StarfieldLayer starfieldLayer
+    HudLayer hudLayer
+    AlienModel alienModel
 
+    private final readyMessages = ['Ready?','3...', '2...', '1...']
+    private int messageIdx = 0
     private PlayerLayer playerLayer
-    private HudLayer hudLayer
-
     private Font font
     private Layout layout
     private Label message
+    private long elapsed
 
     @Override
     int getID(){ STATE_ID }
-
-    /*
-        FIXME: need to carry information over from GamePlayState
-     */
 
     @Override
     void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
         starfieldLayer.init( gc, sbg )
         playerLayer = new PlayerLayer( resourceManager:resourceManager ).init( gc, sbg )
-        hudLayer = new HudLayer( resourceManager:resourceManager ).init( gc, sbg )
+        hudLayer.init( gc, sbg )
 
         font = resourceManager.loadFont( FONT_MAIN, 25f )
-        layout = new HorizontalStackLayout()
+        layout = new HorizontalStackLayout( updatable:true )
 
         message = new Label(
-            text: 'Wave # Completed',
+            text: "Wave ${alienModel.currentWave} Completed",
             font: font,
             color: Color.red,
-            padding: new Box( 10f, 0f, 0f, 0f )
+            padding: new Box( 300f, 0f, 0f, 0f )
         ).init( gc, sbg )
 
-        // FIXME: Ready? ... 3... 2... 1... transition back
-
-        layout.init( gc, sbg )
         layout.addComponent( message )
+        layout.init( gc, sbg )
     }
 
     @Override
@@ -65,6 +66,24 @@ class WaveTransitionState extends BasicGameState {
         playerLayer.update( gc, sbg, delta )
         hudLayer.update( gc, sbg, delta )
         layout.update( gc, sbg, delta )
+
+        if( elapsed > 1000 ){
+            if( messageIdx < readyMessages.size() ){
+                message.text = readyMessages[messageIdx++]
+                elapsed = 0
+
+            } else {
+                alienModel.setupNextWave()
+
+                sbg.enterState(
+                    GamePlayState.STATE_ID,
+                    new EmptyTransition(),
+                    new HorizontalSplitTransition()
+                )
+            }
+        }
+
+        elapsed += delta
     }
 
     @Override
