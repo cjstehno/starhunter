@@ -4,6 +4,7 @@ import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
 import org.newdawn.slick.geom.Vector2f
+import org.newdawn.slick.state.StateBasedGame
 
 /**
  * Simple UI component useful for unit testing.
@@ -17,18 +18,18 @@ class TestComponent extends Component {
     boolean initCalled, updateCalled, renderCalled
 
     @Override
-    Component init( final GameContainer gc ) throws SlickException{
+    Component init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
         initCalled = true
         return this
     }
 
     @Override
-    void update( final GameContainer gc, final int delta ) throws SlickException{
+    void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException{
         updateCalled = true
     }
 
     @Override
-    void render( final GameContainer gc, final Graphics g ) throws SlickException{
+    void render( final GameContainer gc, final StateBasedGame sbg, final Graphics g ) throws SlickException{
         renderCalled = true
     }
 

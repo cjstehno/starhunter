@@ -3,6 +3,7 @@ package com.stehno.games.ui
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
+import org.newdawn.slick.state.StateBasedGame
 
 /**
  * The base class for UI component layout managers.
@@ -42,19 +43,19 @@ abstract class Layout {
      * @param gc
      * @throws SlickException
      */
-    void init( final GameContainer gc ) throws SlickException {
+    void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException {
         // Nothing special
     }
 
-    void update( final GameContainer gc, final int delta ) throws SlickException {
+    void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException {
         components.each { Component c, constraints->
-            c.update( gc, delta )
+            c.update( gc, sbg, delta )
         }
     }
 
-    void render( final GameContainer gc, final Graphics g ) throws SlickException {
+    void render( final GameContainer gc, final StateBasedGame sbg, final Graphics g ) throws SlickException {
         components.each { Component c, constraints->
-            c.render( gc, g )
+            c.render( gc, sbg, g )
         }
     }
 }

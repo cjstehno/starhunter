@@ -22,6 +22,8 @@ class StarHunter  extends StateBasedGame {
     void initStatesList( final GameContainer gameContainer ) throws SlickException {
         addState( new MenuState( resourceManager:resourceManager ) )
         addState( new GamePlayState( resourceManager:resourceManager ) )
+        addState( new GameOverState( resourceManager:resourceManager ) )
+        addState( new WaveTransitionState( resourceManager:resourceManager ) )
 
         if( System.getProperty( AUTOSTART ) ){
             // Useful for development to skip the startup screen, when working on GamePlayState

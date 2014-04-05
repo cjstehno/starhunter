@@ -6,6 +6,7 @@ import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
 import org.newdawn.slick.Sound
+import org.newdawn.slick.state.StateBasedGame
 
 /**
  * Created by cjstehno on 3/23/2014.
@@ -14,7 +15,6 @@ class BombLayer extends Layer {
 
     ResourceManager resourceManager
     AlienLayer aliens
-    HudLayer hudLayer // FIXME: not happy with this
 
     private final Map<Alien,Bomb> actives = [:] as Map<Alien,Bomb>
     private final Random random = new Random()
@@ -22,13 +22,13 @@ class BombLayer extends Layer {
     private long lastDrop
 
     @Override
-    BombLayer init( final GameContainer gc ) throws SlickException{
+    BombLayer init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
         sound = resourceManager.loadSound( StarHunterResources.AUDIO_ALIEN_BOMB )
         return this
     }
 
     @Override
-    void update( final GameContainer gc,final int delta ) throws SlickException{
+    void update( final GameContainer gc, final StateBasedGame sbg,final int delta ) throws SlickException{
         /*
             - each alien can have one bomb in plat at a time
             - if an alien does not have an active bomb, there is a 50% chance it will drop one
@@ -71,7 +71,7 @@ class BombLayer extends Layer {
     }
 
     @Override
-    void render( final GameContainer gc,final Graphics g ) throws SlickException{
+    void render( final GameContainer gc, final StateBasedGame sbg,final Graphics g ) throws SlickException{
         actives.values()*.render( gc, g )
     }
 
@@ -81,9 +81,7 @@ class BombLayer extends Layer {
             actives.values().each { bomb->
                 if( bomb.colliding( other.player ) ){
                     bomb.kill()
-                    other.player.kill()
-
-                    hudLayer.decrementLives()
+                    other.killPlayer()
                 }
             }
         }

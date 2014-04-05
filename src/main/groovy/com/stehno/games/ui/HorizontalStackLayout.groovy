@@ -2,6 +2,7 @@ package com.stehno.games.ui
 
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.SlickException
+import org.newdawn.slick.state.StateBasedGame
 
 import static com.stehno.games.ui.Layout.HorizAlign.CENTER
 import static com.stehno.games.ui.Layout.HorizAlign.RIGHT
@@ -32,18 +33,18 @@ class HorizontalStackLayout extends Layout {
     }
 
     @Override
-    void init( final GameContainer gc ) throws SlickException{
+    void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
         calculatePositions( gc.width )
-        super.init( gc )
+        super.init( gc, sbg )
     }
 
     @Override
-    void update( final GameContainer gc, final int delta ) throws SlickException {
+    void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException {
         if( updatable ){
             calculatePositions( gc.width )
         }
 
-        super.update( gc, delta )
+        super.update( gc, sbg, delta )
     }
 
     private void calculatePositions( final int gameWidth ){

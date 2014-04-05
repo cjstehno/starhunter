@@ -3,3 +3,13 @@
 - need to handle end of game transition
 - need sounds for explosions
 - need sounds for bomb launch
+
+- allow missiles to destroy bombs
+- for every 1000 points, get a bonus life
+
+
+when all aliens killed
+    allow explosions to clear - wait 1s
+    display "Wave #" for 1s
+    start next wave
+    does this need to be a game state change? Maybe restart the game play state?

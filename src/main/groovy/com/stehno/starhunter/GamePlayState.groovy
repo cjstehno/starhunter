@@ -28,52 +28,51 @@ class GamePlayState extends BasicGameState {
 
     @Override
     void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException {
-        starfieldLayer = new StarfieldLayer( resourceManager:resourceManager ).init( gc )
+        starfieldLayer = new StarfieldLayer( resourceManager:resourceManager ).init( gc, sbg )
 
-        playerLayer = new PlayerLayer( resourceManager:resourceManager ).init( gc )
-        missileLayer = new MissileLayer( resourceManager:resourceManager, player:playerLayer.player ).init( gc )
+        playerLayer = new PlayerLayer( resourceManager:resourceManager ).init( gc, sbg )
+        missileLayer = new MissileLayer( resourceManager:resourceManager, player:playerLayer.player ).init( gc, sbg )
 
-        alienLayer = new AlienLayer( resourceManager:resourceManager ).init( gc )
-        bombLayer = new BombLayer( resourceManager:resourceManager, aliens:alienLayer ).init( gc )
+        alienLayer = new AlienLayer( resourceManager:resourceManager ).init( gc, sbg )
+        bombLayer = new BombLayer( resourceManager:resourceManager, aliens:alienLayer ).init( gc, sbg )
 
-        hud = new HudLayer( resourceManager:resourceManager ).init( gc )
-        missileLayer.hudLayer = hud
+        hud = new HudLayer( resourceManager:resourceManager ).init( gc, sbg )
+        playerLayer.hudLayer = hud
         alienLayer.hudLayer = hud
-        bombLayer.hudLayer = hud
     }
 
     @Override
     void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException{
-        starfieldLayer.update( gc, delta )
+        starfieldLayer.update( gc, sbg, delta )
 
-        playerLayer.update( gc, delta )
+        playerLayer.update( gc, sbg, delta )
 
         // FIXME: collision detection needs work - maybe outside of layers?
 
-        missileLayer.update( gc, delta )
+        missileLayer.update( gc, sbg, delta )
         missileLayer.checkCollisions( alienLayer )
 
-        alienLayer.update( gc, delta )
+        alienLayer.update( gc, sbg, delta )
         alienLayer.checkCollisions( playerLayer )
 
-        bombLayer.update( gc, delta )
+        bombLayer.update( gc, sbg, delta )
         bombLayer.checkCollisions( playerLayer )
 
-        hud.update( gc, delta )
+        hud.update( gc, sbg, delta )
     }
 
     @Override
     void render( final GameContainer gc, final StateBasedGame sbg, final Graphics g ) throws SlickException{
-        starfieldLayer.render( gc, g )
+        starfieldLayer.render( gc, sbg, g )
 
-        playerLayer.render( gc, g )
+        playerLayer.render( gc, sbg, g )
 
-        missileLayer.render( gc, g )
+        missileLayer.render( gc, sbg, g )
 
-        alienLayer.render( gc, g )
-        bombLayer.render( gc, g )
+        alienLayer.render( gc, sbg, g )
+        bombLayer.render( gc, sbg, g )
 
-        hud.render( gc, g )
+        hud.render( gc, sbg, g )
     }
 }
 

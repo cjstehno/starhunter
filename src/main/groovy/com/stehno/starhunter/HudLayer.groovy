@@ -10,6 +10,7 @@ import org.newdawn.slick.Font
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
+import org.newdawn.slick.state.StateBasedGame
 
 import static com.stehno.starhunter.StarHunterResources.FONT_MAIN
 import static com.stehno.starhunter.StarHunterResources.getIMAGE_PLAYER_SHIP
@@ -28,7 +29,7 @@ class HudLayer extends Layer {
     private LivesDisplay livesDisplay
 
     @Override
-    Layer init( final GameContainer gc ) throws SlickException {
+    Layer init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException {
         font = resourceManager.loadFont( FONT_MAIN, 25f )
 
         layout = new HorizontalCornerLayout( updatable:true )
@@ -38,7 +39,7 @@ class HudLayer extends Layer {
             font:font,
             color:Color.red,
             padding: new Box( 5f, 0f, 5f, 0f )
-        ).init( gc )
+        ).init( gc, sbg )
 
         layout.addComponent(
             livesDisplay,
@@ -54,7 +55,7 @@ class HudLayer extends Layer {
             font:font,
             color:Color.red,
             padding: new Box( 5f, 0f, 0f, 5f )
-        ).init( gc )
+        ).init( gc, sbg )
 
         layout.addComponent(
             scoreLabel,
@@ -65,19 +66,19 @@ class HudLayer extends Layer {
             ]
         )
 
-        layout.init( gc )
+        layout.init( gc, sbg )
 
         return this
     }
 
     @Override
-    void update( final GameContainer gc,final int delta ) throws SlickException {
-        layout.update( gc, delta )
+    void update( final GameContainer gc, final StateBasedGame sbg,final int delta ) throws SlickException {
+        layout.update( gc, sbg, delta )
     }
 
     @Override
-    void render( final GameContainer gc,final Graphics g ) throws SlickException {
-        layout.render( gc, g )
+    void render( final GameContainer gc, final StateBasedGame sbg,final Graphics g ) throws SlickException {
+        layout.render( gc, sbg, g )
     }
 
     void decrementLives(){

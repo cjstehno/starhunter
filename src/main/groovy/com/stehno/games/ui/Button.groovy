@@ -5,6 +5,7 @@ import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.Input
 import org.newdawn.slick.SlickException
+import org.newdawn.slick.state.StateBasedGame
 
 /**
  * Simple text-based button component.
@@ -18,7 +19,7 @@ class Button extends Label {
     Closure onFocus
     Closure onBlur
 
-    void update( final GameContainer gc, final int delta ) throws SlickException {
+    void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException {
         super.update( gc, delta )
 
         boolean alreadyInFocus = inFocus
@@ -39,7 +40,7 @@ class Button extends Label {
         }
     }
 
-    void render( final GameContainer gc, final Graphics g ) throws SlickException {
+    void render( final GameContainer gc, final StateBasedGame sbg, final Graphics g ) throws SlickException {
         g.setColor( inFocus ? focusColor : color )
         g.setFont( font )
         g.drawString( text, position.x, position.y )

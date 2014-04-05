@@ -7,6 +7,7 @@ import org.newdawn.slick.Graphics
 import org.newdawn.slick.Input
 import org.newdawn.slick.SlickException
 import org.newdawn.slick.Sound
+import org.newdawn.slick.state.StateBasedGame
 
 import static com.stehno.starhunter.StarHunterResources.getAUDIO_PLAYER_MISSILE
 
@@ -17,19 +18,18 @@ class MissileLayer extends Layer {
 
     ResourceManager resourceManager
     Player player
-    HudLayer hudLayer // FIXME: not happy with this
 
     private Set<Missile> actives = [] as Set<Missile>
     private Sound sound
 
     @Override
-    MissileLayer init( final GameContainer gc ) throws SlickException{
+    MissileLayer init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
         sound = resourceManager.loadSound( AUDIO_PLAYER_MISSILE )
         return this
     }
 
     @Override
-    void update( final GameContainer gc,final int delta ) throws SlickException{
+    void update( final GameContainer gc, final StateBasedGame sbg,final int delta ) throws SlickException{
         if( player.alive ){
             Input input = gc.getInput()
 
@@ -50,7 +50,7 @@ class MissileLayer extends Layer {
     }
 
     @Override
-    void render( final GameContainer gc,final Graphics g ) throws SlickException{
+    void render( final GameContainer gc, final StateBasedGame sbg,final Graphics g ) throws SlickException{
         actives*.render( gc, g )
     }
 
@@ -60,10 +60,8 @@ class MissileLayer extends Layer {
             actives.each { missile->
                 other.activeAliens().each { alien->
                     if( alien.colliding( missile ) ){
-                        alien.kill()
+                        other.killAlien alien
                         missile.kill()
-
-                        hudLayer.score( 100 )
                     }
                 }
             }

@@ -65,7 +65,7 @@ class MenuState extends BasicGameState {
                 font: titleFont,
                 color: Color.red,
                 padding: new Box( 200, 0, 0, 0 )
-            ).init( gc )
+            ).init( gc, sbg )
         )
 
         layout.addComponent(
@@ -82,7 +82,7 @@ class MenuState extends BasicGameState {
                     menuSelect.play()
                     sbg.enterState( GamePlayState.STATE_ID );
                 }
-            ).init( gc )
+            ).init( gc, sbg )
         )
 
         layout.addComponent(
@@ -100,20 +100,20 @@ class MenuState extends BasicGameState {
                     // TODO: is there something better?
                     System.exit( 0 );
                 }
-            ).init( gc )
+            ).init( gc, sbg )
         )
 
-        layout.init( gc )
+        layout.init( gc, sbg )
     }
 
     @Override
     public void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException{
-        layout.update( gc, delta )
+        layout.update( gc, sbg, delta )
     }
 
     @Override
     public void render( final GameContainer gc, final StateBasedGame stateBasedGame, final Graphics g ) throws SlickException{
-        layout.render( gc, g )
+        layout.render( gc, stateBasedGame, g )
     }
 }
 
