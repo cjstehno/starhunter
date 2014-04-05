@@ -23,8 +23,8 @@ class GameOverState  extends BasicGameState {
     static int STATE_ID = 3
 
     ResourceManager resourceManager
+    StarfieldLayer starfieldLayer
 
-    private StarfieldLayer starfieldLayer
     private HudLayer hudLayer
 
     private Font font
@@ -40,7 +40,7 @@ class GameOverState  extends BasicGameState {
 
     @Override
     void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
-        starfieldLayer = new StarfieldLayer( resourceManager:resourceManager ).init( gc, sbg )
+        starfieldLayer.init( gc, sbg )
         hudLayer = new HudLayer( resourceManager:resourceManager ).init( gc, sbg )
 
         font = resourceManager.loadFont( FONT_MAIN, 40f )

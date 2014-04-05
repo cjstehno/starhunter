@@ -13,12 +13,12 @@ class GamePlayState extends BasicGameState {
     static int STATE_ID = 2
 
     ResourceManager resourceManager
+    StarfieldLayer starfieldLayer
 
     private PlayerLayer playerLayer
     private MissileLayer missileLayer
     private AlienLayer alienLayer
     private BombLayer bombLayer
-    private StarfieldLayer starfieldLayer
     private HudLayer hud
 
     @Override
@@ -28,7 +28,7 @@ class GamePlayState extends BasicGameState {
 
     @Override
     void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException {
-        starfieldLayer = new StarfieldLayer( resourceManager:resourceManager ).init( gc, sbg )
+        starfieldLayer.init( gc, sbg )
 
         playerLayer = new PlayerLayer( resourceManager:resourceManager ).init( gc, sbg )
         missileLayer = new MissileLayer( resourceManager:resourceManager, player:playerLayer.player ).init( gc, sbg )

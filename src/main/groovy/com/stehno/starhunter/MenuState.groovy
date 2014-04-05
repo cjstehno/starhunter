@@ -9,6 +9,8 @@ import com.stehno.games.ui.Layout
 import org.newdawn.slick.*
 import org.newdawn.slick.state.BasicGameState
 import org.newdawn.slick.state.StateBasedGame
+import org.newdawn.slick.state.transition.EmptyTransition
+import org.newdawn.slick.state.transition.HorizontalSplitTransition
 
 import static com.stehno.starhunter.StarHunterResources.*
 
@@ -20,6 +22,7 @@ class MenuState extends BasicGameState {
     static final int STATE_ID = 100
 
     ResourceManager resourceManager
+    StarfieldLayer starfieldLayer
 
     private static enum MenuItem {
         PLAY("Play"),
@@ -47,6 +50,8 @@ class MenuState extends BasicGameState {
 
     @Override
     public void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
+        starfieldLayer.init( gc, sbg )
+
         titleFont = resourceManager.loadFont( FONT_MAIN, 55f )
         optionFont = resourceManager.loadFont( FONT_MAIN, 32f )
 
@@ -80,7 +85,7 @@ class MenuState extends BasicGameState {
                 },
                 onClick: { cgc, del->
                     menuSelect.play()
-                    sbg.enterState( GamePlayState.STATE_ID );
+                    sbg.enterState( GamePlayState.STATE_ID, new EmptyTransition(), new HorizontalSplitTransition() );
                 }
             ).init( gc, sbg )
         )
@@ -108,11 +113,13 @@ class MenuState extends BasicGameState {
 
     @Override
     public void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException{
+        starfieldLayer.update( gc, sbg, delta )
         layout.update( gc, sbg, delta )
     }
 
     @Override
     public void render( final GameContainer gc, final StateBasedGame stateBasedGame, final Graphics g ) throws SlickException{
+        starfieldLayer.render( gc, stateBasedGame, g )
         layout.render( gc, stateBasedGame, g )
     }
 }

@@ -20,10 +20,7 @@ class StarHunter  extends StateBasedGame {
 
     @Override
     void initStatesList( final GameContainer gameContainer ) throws SlickException {
-        addState( new MenuState( resourceManager:resourceManager ) )
-        addState( new GamePlayState( resourceManager:resourceManager ) )
-        addState( new GameOverState( resourceManager:resourceManager ) )
-        addState( new WaveTransitionState( resourceManager:resourceManager ) )
+        configureStates()
 
         if( System.getProperty( AUTOSTART ) ){
             // Useful for development to skip the startup screen, when working on GamePlayState
@@ -53,5 +50,33 @@ class StarHunter  extends StateBasedGame {
         } catch( SlickException sex ){
             sex.printStackTrace()
         }
+    }
+
+    private void configureStates(){
+        StarfieldLayer starfieldLayer = new StarfieldLayer(
+            resourceManager: resourceManager
+        )
+
+        addState( new MenuState(
+            resourceManager: resourceManager,
+            starfieldLayer: starfieldLayer
+        ))
+
+        addState( new GamePlayState(
+            resourceManager: resourceManager,
+            starfieldLayer: starfieldLayer
+        ))
+
+        // Hud
+        addState( new GameOverState(
+            resourceManager: resourceManager,
+            starfieldLayer: starfieldLayer
+        ))
+
+        // Hud, Player
+        addState( new WaveTransitionState(
+            resourceManager: resourceManager,
+            starfieldLayer: starfieldLayer
+        ))
     }
 }

@@ -20,7 +20,7 @@ class Button extends Label {
     Closure onBlur
 
     void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException {
-        super.update( gc, delta )
+        super.update( gc, sbg, delta )
 
         boolean alreadyInFocus = inFocus
 

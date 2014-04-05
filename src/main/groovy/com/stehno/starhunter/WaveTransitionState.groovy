@@ -21,8 +21,8 @@ class WaveTransitionState extends BasicGameState {
     static int STATE_ID = 4
 
     ResourceManager resourceManager
+    StarfieldLayer starfieldLayer
 
-    private StarfieldLayer starfieldLayer
     private PlayerLayer playerLayer
     private HudLayer hudLayer
 
@@ -39,7 +39,7 @@ class WaveTransitionState extends BasicGameState {
 
     @Override
     void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
-        starfieldLayer = new StarfieldLayer( resourceManager:resourceManager ).init( gc, sbg )
+        starfieldLayer.init( gc, sbg )
         playerLayer = new PlayerLayer( resourceManager:resourceManager ).init( gc, sbg )
         hudLayer = new HudLayer( resourceManager:resourceManager ).init( gc, sbg )
 

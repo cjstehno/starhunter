@@ -18,13 +18,15 @@ class StarfieldLayer extends Layer {
 
     @Override
     StarfieldLayer init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException {
-        image = resourceManager.loadImage( StarHunterResources.IMAGE_STARFIELD )
+        if( !image ){
+            image = resourceManager.loadImage( StarHunterResources.IMAGE_STARFIELD )
+        }
         return this
     }
 
     @Override
     void update( final GameContainer gc, final StateBasedGame sbg ,final int delta ) throws SlickException{
-
+        // nothing
     }
 
     @Override
