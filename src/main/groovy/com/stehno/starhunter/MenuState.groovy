@@ -85,7 +85,15 @@ class MenuState extends BasicGameState {
                 },
                 onClick: { cgc, del->
                     menuSelect.play()
-                    sbg.enterState( GamePlayState.STATE_ID, new EmptyTransition(), new HorizontalSplitTransition() );
+
+                    // TODO: this does not really work well
+                    sbg.getState( GamePlayState.STATE_ID ).init( gc, sbg )
+
+                    sbg.enterState(
+                        GamePlayState.STATE_ID,
+                        new EmptyTransition(),
+                        new HorizontalSplitTransition()
+                    )
                 }
             ).init( gc, sbg )
         )

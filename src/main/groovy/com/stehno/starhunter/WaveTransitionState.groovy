@@ -42,11 +42,14 @@ class WaveTransitionState extends BasicGameState {
 
     @Override
     void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
+        messageIdx = 0
+        elapsed = 0
+
         starfieldLayer.init( gc, sbg )
         playerLayer = new PlayerLayer( resourceManager:resourceManager ).init( gc, sbg )
         hudLayer.init( gc, sbg )
 
-        font = resourceManager.loadFont( FONT_MAIN, 25f )
+        font = resourceManager.loadFont( FONT_MAIN, 40f )
         layout = new HorizontalStackLayout( updatable:true )
 
         message = new Label(

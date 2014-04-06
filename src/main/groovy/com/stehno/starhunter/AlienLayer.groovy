@@ -20,6 +20,7 @@ class AlienLayer extends Layer {
     AlienModel alienModel
 
     private Set<Alien> actives = [] as Set<Alien>
+    private long elapsed
 
     Collection<Alien> activeAliens(){ actives }
 
@@ -31,6 +32,8 @@ class AlienLayer extends Layer {
     }
 
     void startWave( GameContainer gc ){
+        actives.clear()
+
         alienModel.currentWaveSize.times {
             actives << new Alien( resourceManager: resourceManager ).init( gc )
         }
@@ -43,13 +46,20 @@ class AlienLayer extends Layer {
         actives.removeAll { it.dead }
 
         if( alienModel.waveComplete() ){
-            // TODO: should this be out in game state?
-            // TODO: wait 1s before changing state to let anim move a bit
-            sbg.enterState(
-                WaveTransitionState.STATE_ID,
-                new EmptyTransition(),
-                new HorizontalSplitTransition()
-            )
+            if( elapsed > 1000 ){
+                sbg.getState( WaveTransitionState.STATE_ID ).init(gc, sbg)
+
+                sbg.enterState(
+                    WaveTransitionState.STATE_ID,
+                    new EmptyTransition(),
+                    new HorizontalSplitTransition()
+                )
+                elapsed = 0
+
+            } else {
+                elapsed += delta
+            }
+
         } else if( alienModel.waveChanged() ){
             startWave( gc )
         }
