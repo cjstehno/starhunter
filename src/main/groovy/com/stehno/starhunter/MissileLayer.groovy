@@ -10,7 +10,7 @@ import org.newdawn.slick.SlickException
 import org.newdawn.slick.Sound
 import org.newdawn.slick.state.StateBasedGame
 
-import static com.stehno.starhunter.StarHunterResources.getAUDIO_PLAYER_MISSILE
+import static com.stehno.starhunter.StarHunterResources.AUDIO_PLAYER_MISSILE
 
 /**
  * Created by cjstehno on 3/23/2014.

@@ -7,3 +7,5 @@
 - allow missiles to destroy bombs?
 - for every 1000 points, get a bonus life
 
+- score board
+- options for input keys

@@ -14,7 +14,7 @@ import org.newdawn.slick.SlickException
 import org.newdawn.slick.state.StateBasedGame
 
 import static com.stehno.starhunter.StarHunterResources.FONT_MAIN
-import static com.stehno.starhunter.StarHunterResources.getIMAGE_PLAYER_SHIP
+import static com.stehno.starhunter.StarHunterResources.IMAGE_PLAYER_SHIP
 
 /**
  * Created by cjstehno on 3/23/2014.

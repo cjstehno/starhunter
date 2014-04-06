@@ -31,7 +31,6 @@ class PlayerLayer extends Layer {
         player.update( gc, delta )
 
         if( player.dead ){
-            // TODO: should these be out in game state?
             if( model.lives <= 0 ){
                 sbg.enterState(
                     GameOverState.STATE_ID,
@@ -40,6 +39,9 @@ class PlayerLayer extends Layer {
                 )
             } else {
                 // FIXME: enter next life state... then respawn
+                // TODO: refactor the wave change state into something more generic - a "get ready message state"
+                // - for wave change show what it has now
+                // - for life respawn show message about starting again
                 println 'You shall rise again...'
 
                 // FIXME: temp - just game over for now
