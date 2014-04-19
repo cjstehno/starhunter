@@ -1,7 +1,7 @@
-package com.stehno.starhunter
+package com.stehno.starhunter.alien
 import com.stehno.games.Layer
 import com.stehno.games.ResourceManager
-import com.stehno.starhunter.alien.AlienModel
+import com.stehno.starhunter.WaveTransitionState
 import com.stehno.starhunter.player.PlayerLayer
 import com.stehno.starhunter.player.PlayerModel
 import org.newdawn.slick.GameContainer

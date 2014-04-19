@@ -1,5 +1,6 @@
 package com.stehno.starhunter
 import com.stehno.games.ResourceManager
+import com.stehno.starhunter.alien.AlienLayer
 import com.stehno.starhunter.alien.AlienModel
 import com.stehno.starhunter.player.PlayerLayer
 import com.stehno.starhunter.player.PlayerModel
@@ -21,8 +22,8 @@ class GamePlayState extends BasicGameState {
 
     PlayerModel playerModel
     AlienModel alienModel
+    PlayerLayer playerLayer
 
-    private PlayerLayer playerLayer
     private MissileLayer missileLayer
     private AlienLayer alienLayer
     private BombLayer bombLayer
@@ -35,11 +36,7 @@ class GamePlayState extends BasicGameState {
     @Override
     void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException {
         starfieldLayer.init( gc, sbg )
-
-        playerLayer = new PlayerLayer(
-            resourceManager:resourceManager,
-            model: playerModel
-        ).init( gc, sbg )
+        playerLayer.init( gc, sbg )
 
         missileLayer = new MissileLayer( resourceManager:resourceManager, player:playerLayer.player ).init( gc, sbg )
 

@@ -2,6 +2,8 @@ package com.stehno.starhunter
 
 import com.stehno.games.Layer
 import com.stehno.games.ResourceManager
+import com.stehno.starhunter.alien.Alien
+import com.stehno.starhunter.alien.AlienLayer
 import com.stehno.starhunter.player.PlayerLayer
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics

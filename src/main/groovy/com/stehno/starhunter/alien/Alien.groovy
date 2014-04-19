@@ -1,13 +1,13 @@
-package com.stehno.starhunter
+package com.stehno.starhunter.alien
+
+import com.stehno.starhunter.Actor
+import com.stehno.starhunter.StarHunterResources
 import org.newdawn.slick.Animation
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Image
 import org.newdawn.slick.SlickException
 import org.newdawn.slick.geom.Rectangle
 import org.newdawn.slick.geom.Vector2f
-
-import static com.stehno.starhunter.StarHunterResources.IMAGES_ALIEN_SHIP
-import static com.stehno.starhunter.StarHunterResources.IMAGES_EXPLOSION
 
 /**
  * TODO: document
@@ -30,12 +30,12 @@ class Alien extends Actor {
     @Override
     Alien init( final GameContainer gc ) throws SlickException {
         aliveRenderable = new Animation(
-            resourceManager.loadImages( IMAGES_ALIEN_SHIP )*.getScaledCopy( 0.12f ) as Image[],
+            resourceManager.loadImages( StarHunterResources.IMAGES_ALIEN_SHIP )*.getScaledCopy( 0.12f ) as Image[],
             750
         )
 
         dyingRenderable = new Animation(
-            resourceManager.loadImages( IMAGES_EXPLOSION ),
+            resourceManager.loadImages( StarHunterResources.IMAGES_EXPLOSION ),
             50
         )
         dyingRenderable.looping = false

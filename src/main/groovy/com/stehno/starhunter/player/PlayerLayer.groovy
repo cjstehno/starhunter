@@ -2,6 +2,7 @@ package com.stehno.starhunter.player
 import com.stehno.games.Layer
 import com.stehno.games.ResourceManager
 import com.stehno.starhunter.GameOverState
+import com.stehno.starhunter.RespawnTransitionState
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
@@ -22,8 +23,12 @@ class PlayerLayer extends Layer {
 
     @Override
     PlayerLayer init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException{
-        player = new Player( resourceManager:resourceManager ).init( gc )
+        spawnPlayer( gc )
         return this
+    }
+
+    void spawnPlayer( GameContainer gc ){
+        player = new Player( resourceManager: resourceManager ).init( gc )
     }
 
     @Override
@@ -38,15 +43,8 @@ class PlayerLayer extends Layer {
                     new HorizontalSplitTransition()
                 )
             } else {
-                // FIXME: enter next life state... then respawn
-                // TODO: refactor the wave change state into something more generic - a "get ready message state"
-                // - for wave change show what it has now
-                // - for life respawn show message about starting again
-                println 'You shall rise again...'
-
-                // FIXME: temp - just game over for now
                 sbg.enterState(
-                    GameOverState.STATE_ID,
+                    RespawnTransitionState.STATE_ID,
                     new EmptyTransition(),
                     new HorizontalSplitTransition()
                 )

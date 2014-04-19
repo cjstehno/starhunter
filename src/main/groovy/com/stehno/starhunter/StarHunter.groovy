@@ -1,6 +1,7 @@
 package com.stehno.starhunter
 import com.stehno.games.ResourceManager
 import com.stehno.starhunter.alien.AlienModel
+import com.stehno.starhunter.player.PlayerLayer
 import com.stehno.starhunter.player.PlayerModel
 import org.newdawn.slick.AppGameContainer
 import org.newdawn.slick.GameContainer
@@ -67,6 +68,11 @@ class StarHunter  extends StateBasedGame {
             playerModel: playerModel
         )
 
+        PlayerLayer playerLayer = new PlayerLayer(
+            resourceManager: resourceManager,
+            model: playerModel
+        )
+
         addState( new MenuState(
             resourceManager: resourceManager,
             starfieldLayer: starfieldLayer
@@ -76,6 +82,7 @@ class StarHunter  extends StateBasedGame {
             resourceManager: resourceManager,
             starfieldLayer: starfieldLayer,
             hudLayer: hudLayer,
+            playerLayer: playerLayer,
             playerModel: playerModel,
             alienModel: alienModel
         ))
@@ -91,8 +98,17 @@ class StarHunter  extends StateBasedGame {
         addState( new WaveTransitionState(
             resourceManager: resourceManager,
             starfieldLayer: starfieldLayer,
+            playerLayer: playerLayer,
             hudLayer: hudLayer,
             alienModel: alienModel
+        ))
+
+        addState( new RespawnTransitionState(
+            resourceManager: resourceManager,
+            starfieldLayer: starfieldLayer,
+            hudLayer: hudLayer,
+            playerModel: playerModel,
+            playerLayer: playerLayer
         ))
     }
 }
