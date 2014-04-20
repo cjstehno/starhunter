@@ -1,11 +1,12 @@
 package com.stehno.games
+
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
 import org.newdawn.slick.state.StateBasedGame
 
 /**
- * Created by cjstehno on 3/23/2014.
+ * A common interface for the Slick2d lifecycle workflow methods.
  */
 interface LifecycleParticipant<T>{
 

@@ -95,7 +95,7 @@ class StarHunter  extends StateBasedGame {
             playerModel: playerModel
         ))
 
-        addState( new WaveTransitionState(
+        addState( new NextWaveState(
             resourceManager: resourceManager,
             starfieldLayer: starfieldLayer,
             playerLayer: playerLayer,
@@ -103,7 +103,7 @@ class StarHunter  extends StateBasedGame {
             alienModel: alienModel
         ))
 
-        addState( new RespawnTransitionState(
+        addState( new RespawnState(
             resourceManager: resourceManager,
             starfieldLayer: starfieldLayer,
             hudLayer: hudLayer,

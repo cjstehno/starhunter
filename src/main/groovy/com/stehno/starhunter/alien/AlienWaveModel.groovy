@@ -1,9 +1,9 @@
 package com.stehno.starhunter.alien
 
 /**
- * Created by cjstehno on 4/5/2014.
+ * Active state for the alien attack wave.
  */
-class AlienModel {
+class AlienWaveModel {
 
     int currentWave = 1
     int currentWaveSize = 4

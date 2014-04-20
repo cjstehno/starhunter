@@ -1,11 +1,12 @@
-package com.stehno.starhunter
-import com.stehno.games.Layer
+package com.stehno.starhunter.hud
+
 import com.stehno.games.ResourceManager
+import com.stehno.games.SpriteLayer
 import com.stehno.games.ui.Box
 import com.stehno.games.ui.HorizontalCornerLayout
 import com.stehno.games.ui.Label
 import com.stehno.games.ui.Layout
-import com.stehno.starhunter.player.PlayerModel
+import com.stehno.starhunter.player.PlayerSpriteModel
 import org.newdawn.slick.Color
 import org.newdawn.slick.Font
 import org.newdawn.slick.GameContainer
@@ -17,12 +18,12 @@ import static com.stehno.starhunter.StarHunterResources.FONT_MAIN
 import static com.stehno.starhunter.StarHunterResources.IMAGE_PLAYER_SHIP
 
 /**
- * Created by cjstehno on 3/23/2014.
+ * Manages the heads-up display layer.
  */
-class HudLayer extends Layer {
+class HudSpriteLayer extends SpriteLayer {
 
     ResourceManager resourceManager
-    PlayerModel playerModel
+    PlayerSpriteModel playerSpriteModel
 
     private Layout layout
     private Font font
@@ -30,16 +31,17 @@ class HudLayer extends Layer {
     private LivesDisplay livesDisplay
 
     @Override
-    Layer init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException {
+    HudSpriteLayer init( final GameContainer gc,final StateBasedGame sbg ) throws SlickException{
         font = resourceManager.loadFont( FONT_MAIN, 25f )
 
         layout = new HorizontalCornerLayout( updatable:true )
 
         livesDisplay = new LivesDisplay(
             image: resourceManager.loadImage( IMAGE_PLAYER_SHIP ).getScaledCopy( 0.1f ),
-            font:font,
-            color:Color.red,
-            padding: new Box( 5f, 0f, 5f, 0f )
+            font: font,
+            color: Color.red,
+            padding: new Box( 5f, 0f, 5f, 0f ),
+            lives: playerSpriteModel.currentLives()
         ).init( gc, sbg )
 
         layout.addComponent(
@@ -52,9 +54,9 @@ class HudLayer extends Layer {
         )
 
         scoreLabel = new Label(
-            text:'0',
-            font:font,
-            color:Color.red,
+            text: '0',
+            font: font,
+            color: Color.red,
             padding: new Box( 5f, 0f, 0f, 5f )
         ).init( gc, sbg )
 
@@ -73,15 +75,15 @@ class HudLayer extends Layer {
     }
 
     @Override
-    void update( final GameContainer gc, final StateBasedGame sbg,final int delta ) throws SlickException {
-        scoreLabel.text = playerModel.score as String
-        livesDisplay.lives = playerModel.lives
+    void update( final GameContainer gc,final StateBasedGame sbg,final int delta ) throws SlickException{
+        scoreLabel.text = playerSpriteModel.currentScore() as String
+        livesDisplay.lives = playerSpriteModel.currentLives()
 
         layout.update( gc, sbg, delta )
     }
 
     @Override
-    void render( final GameContainer gc, final StateBasedGame sbg,final Graphics g ) throws SlickException {
-        layout.render( gc, sbg, g )
+    void render( final GameContainer gc,final StateBasedGame sbg,final Graphics g ) throws SlickException{
+        layout.render gc, sbg, g
     }
 }

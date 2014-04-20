@@ -1,4 +1,4 @@
-package com.stehno.starhunter
+package com.stehno.starhunter.hud
 
 import com.stehno.games.ui.Component
 import org.newdawn.slick.Color
@@ -21,7 +21,7 @@ class LivesDisplay extends Component {
     Image image
     Font font
     Color color = Color.white
-    int lives = 3
+    int lives
 
     private String text
 

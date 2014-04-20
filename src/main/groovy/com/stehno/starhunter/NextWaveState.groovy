@@ -4,28 +4,31 @@ import com.stehno.games.ui.Box
 import com.stehno.games.ui.HorizontalStackLayout
 import com.stehno.games.ui.Label
 import com.stehno.games.ui.Layout
+import com.stehno.starhunter.alien.AlienModel
 import com.stehno.starhunter.player.PlayerLayer
-import com.stehno.starhunter.player.PlayerModel
-import org.newdawn.slick.*
+import org.newdawn.slick.Color
+import org.newdawn.slick.Font
+import org.newdawn.slick.GameContainer
+import org.newdawn.slick.Graphics
+import org.newdawn.slick.SlickException
 import org.newdawn.slick.state.BasicGameState
 import org.newdawn.slick.state.StateBasedGame
 import org.newdawn.slick.state.transition.EmptyTransition
 import org.newdawn.slick.state.transition.HorizontalSplitTransition
 
 import static com.stehno.starhunter.StarHunterResources.FONT_MAIN
-
 /**
- * Created by cjstehno on 4/6/2014.
+ * Created by cjstehno on 4/5/2014.
  */
-class RespawnTransitionState extends BasicGameState {
+class NextWaveState extends BasicGameState {
 
-    static int STATE_ID = 5
+    static int STATE_ID = 4
 
     ResourceManager resourceManager
     StarfieldLayer starfieldLayer
-    HudLayer hudLayer
-    PlayerModel playerModel
     PlayerLayer playerLayer
+    HudLayer hudLayer
+    AlienModel alienModel
 
     private final readyMessages = ['Ready?','3...', '2...', '1...']
     private int messageIdx = 0
@@ -51,7 +54,7 @@ class RespawnTransitionState extends BasicGameState {
         layout = new HorizontalStackLayout( updatable:true )
 
         message = new Label(
-            text: "It's payback time!",
+            text: "Wave ${alienModel.currentWave} Completed",
             font: font,
             color: Color.red,
             padding: new Box( 300f, 0f, 0f, 0f )
@@ -63,8 +66,6 @@ class RespawnTransitionState extends BasicGameState {
 
     @Override
     void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException{
-        playerLayer.spawnPlayer( gc )
-
         starfieldLayer.update( gc, sbg, delta )
         playerLayer.update( gc, sbg, delta )
         hudLayer.update( gc, sbg, delta )
@@ -76,7 +77,7 @@ class RespawnTransitionState extends BasicGameState {
                 elapsed = 0
 
             } else {
-//                playerLayer.spawnPlayer( gc )
+                alienModel.setupNextWave()
 
                 sbg.enterState(
                     GamePlayState.STATE_ID,
