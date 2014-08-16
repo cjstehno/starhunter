@@ -1,9 +1,11 @@
 package com.stehno.starhunter
 import com.stehno.games.ResourceManager
-import com.stehno.starhunter.alien.AlienLayer
-import com.stehno.starhunter.alien.AlienModel
-import com.stehno.starhunter.player.PlayerLayer
-import com.stehno.starhunter.player.PlayerModel
+import com.stehno.starhunter.alien.AlienSpriteLayer
+import com.stehno.starhunter.alien.BombSpriteLayer
+import com.stehno.starhunter.hud.HudSpriteLayer
+import com.stehno.starhunter.player.MissileSpriteLayer
+import com.stehno.starhunter.player.PlayerSpriteLayer
+import com.stehno.starhunter.stars.StarfieldSpriteLayer
 import org.newdawn.slick.GameContainer
 import org.newdawn.slick.Graphics
 import org.newdawn.slick.SlickException
@@ -17,16 +19,14 @@ class GamePlayState extends BasicGameState {
     static int STATE_ID = 2
 
     ResourceManager resourceManager
-    StarfieldLayer starfieldLayer
-    HudLayer hudLayer
+    StarfieldSpriteLayer starfieldSpriteLayer
+    HudSpriteLayer hudSpriteLayer
 
-    PlayerModel playerModel
-    AlienModel alienModel
-    PlayerLayer playerLayer
+    PlayerSpriteLayer playerSpriteLayer
 
-    private MissileLayer missileLayer
-    private AlienLayer alienLayer
-    private BombLayer bombLayer
+    private MissileSpriteLayer missileSpriteLayer
+    private AlienSpriteLayer alienSpriteLayer
+    private BombSpriteLayer bombSpriteLayer
 
     @Override
     int getID(){
@@ -35,54 +35,47 @@ class GamePlayState extends BasicGameState {
 
     @Override
     void init( final GameContainer gc, final StateBasedGame sbg ) throws SlickException {
-        starfieldLayer.init( gc, sbg )
-        playerLayer.init( gc, sbg )
+        starfieldSpriteLayer.init( gc, sbg )
+        playerSpriteLayer.init( gc, sbg )
 
-        missileLayer = new MissileLayer( resourceManager:resourceManager, player:playerLayer.player ).init( gc, sbg )
+        missileSpriteLayer = new MissileSpriteLayer( resourceManager:resourceManager, player:playerSpriteLayer.playerSprite ).init( gc, sbg )
 
-        alienLayer = new AlienLayer(
-            resourceManager:resourceManager,
-            playerModel: playerModel,
-            alienModel: alienModel
-        ).init( gc, sbg )
+        alienSpriteLayer = new AlienSpriteLayer( resourceManager:resourceManager ).init( gc, sbg )
 
-        bombLayer = new BombLayer( resourceManager:resourceManager, aliens:alienLayer ).init( gc, sbg )
+        bombSpriteLayer = new BombSpriteLayer( resourceManager:resourceManager, aliens:alienSpriteLayer ).init( gc, sbg )
 
-        hudLayer.init( gc, sbg )
+        hudSpriteLayer.init( gc, sbg )
     }
 
     @Override
     void update( final GameContainer gc, final StateBasedGame sbg, final int delta ) throws SlickException{
-        starfieldLayer.update( gc, sbg, delta )
+        starfieldSpriteLayer.update( gc, sbg, delta )
 
-        playerLayer.update( gc, sbg, delta )
+        playerSpriteLayer.update( gc, sbg, delta )
 
-        // FIXME: collision detection needs work - maybe outside of layers?
+        missileSpriteLayer.update( gc, sbg, delta )
+        missileSpriteLayer.checkCollisions( alienSpriteLayer )
 
-        missileLayer.update( gc, sbg, delta )
-        missileLayer.checkCollisions( alienLayer )
+        alienSpriteLayer.update( gc, sbg, delta )
+        alienSpriteLayer.checkCollisions( playerSpriteLayer )
 
-        alienLayer.update( gc, sbg, delta )
-        alienLayer.checkCollisions( playerLayer )
+        bombSpriteLayer.update( gc, sbg, delta )
+        bombSpriteLayer.checkCollisions( playerSpriteLayer )
 
-        bombLayer.update( gc, sbg, delta )
-        bombLayer.checkCollisions( playerLayer )
-
-        hudLayer.update( gc, sbg, delta )
+        hudSpriteLayer.update( gc, sbg, delta )
     }
 
     @Override
     void render( final GameContainer gc, final StateBasedGame sbg, final Graphics g ) throws SlickException{
-        starfieldLayer.render( gc, sbg, g )
+        starfieldSpriteLayer.render( gc, sbg, g )
 
-        playerLayer.render( gc, sbg, g )
+        playerSpriteLayer.render( gc, sbg, g )
 
-        missileLayer.render( gc, sbg, g )
+        missileSpriteLayer.render( gc, sbg, g )
 
-        alienLayer.render( gc, sbg, g )
-        bombLayer.render( gc, sbg, g )
+        alienSpriteLayer.render( gc, sbg, g )
+        bombSpriteLayer.render( gc, sbg, g )
 
-        hudLayer.render( gc, sbg, g )
+        hudSpriteLayer.render( gc, sbg, g )
     }
 }
-

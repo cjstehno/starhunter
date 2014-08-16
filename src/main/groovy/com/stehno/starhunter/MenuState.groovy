@@ -6,6 +6,7 @@ import com.stehno.games.ui.Button
 import com.stehno.games.ui.HorizontalStackLayout
 import com.stehno.games.ui.Label
 import com.stehno.games.ui.Layout
+import com.stehno.starhunter.stars.StarfieldSpriteLayer
 import org.newdawn.slick.*
 import org.newdawn.slick.state.BasicGameState
 import org.newdawn.slick.state.StateBasedGame
@@ -22,11 +23,11 @@ class MenuState extends BasicGameState {
     static final int STATE_ID = 100
 
     ResourceManager resourceManager
-    StarfieldLayer starfieldLayer
+    StarfieldSpriteLayer starfieldLayer
 
     private static enum MenuItem {
-        PLAY("Play"),
-        QUIT("Quit");
+        PLAY( 'Play' ),
+        QUIT( 'Quit' );
 
         private final String label;
 

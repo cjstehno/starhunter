@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException
 import org.newdawn.slick.geom.Rectangle
 import org.newdawn.slick.geom.Vector2f
 
-import static com.stehno.starhunter.StarHunterResources.getIMAGE_ALIEN_BOMB
+import static com.stehno.starhunter.StarHunterResources.IMAGE_ALIEN_BOMB
 
 /**
  * Sprite representing the alien bombs.

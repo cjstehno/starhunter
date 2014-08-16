@@ -80,8 +80,8 @@ class StarHunter  extends StateBasedGame {
 
         addState( new GamePlayState(
             resourceManager: resourceManager,
-            starfieldLayer: starfieldLayer,
-            hudLayer: hudLayer,
+            starfieldSpriteLayer: starfieldLayer,
+            hudSpriteLayer: hudLayer,
             playerLayer: playerLayer,
             playerModel: playerModel,
             alienModel: alienModel

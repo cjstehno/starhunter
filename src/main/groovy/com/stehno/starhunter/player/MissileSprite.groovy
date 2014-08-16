@@ -7,7 +7,7 @@ import org.newdawn.slick.SlickException
 import org.newdawn.slick.geom.Rectangle
 import org.newdawn.slick.geom.Vector2f
 
-import static com.stehno.starhunter.StarHunterResources.getIMAGE_PLAYER_MISSILE
+import static com.stehno.starhunter.StarHunterResources.IMAGE_PLAYER_MISSILE
 
 /**
  * Sprite implementation for the player missiles.
