@@ -2,30 +2,61 @@ package com.stehno.starhunter
 
 import com.badlogic.gdx.ApplicationAdapter
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.Screen
+import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.stehno.starhunter.screens.GameScreen
 import groovy.transform.TypeChecked
+
+import static com.badlogic.gdx.Application.LOG_DEBUG
 
 @TypeChecked
 class StarHunter extends ApplicationAdapter {
 
-    SpriteBatch batch
-    Texture img
+    private Screen screen
+    private SpriteBatch batch
 
     @Override
     void create() {
-        batch = new SpriteBatch()
-        img = new Texture(Gdx.files.classpath('images/badlogic.jpg'))
+        Gdx.app.setLogLevel LOG_DEBUG
+
+        Assets.instance.init(new AssetManager())
+
+        setScreen(new GameScreen())
+    }
+
+    private void setScreen(Screen screen) {
+        screen.show()
+        screen.resize(Gdx.graphics.width, Gdx.graphics.height)
+        screen.pause()
+        this.screen = screen
     }
 
     @Override
     void render() {
-        Gdx.gl.glClearColor 1, 0, 0, 1
-        Gdx.gl.glClear GL20.GL_COLOR_BUFFER_BIT
+        float deltaTime = Math.min(Gdx.graphics.deltaTime, (1.0f / 60.0f) as float)
 
-        batch.begin()
-        batch.draw img, 0, 0
-        batch.end()
+        screen?.render(deltaTime)
+    }
+
+    @Override
+    void resize(int width, int height) {
+        screen?.resize(width, height)
+    }
+
+    @Override
+    void pause() {
+        screen?.pause()
+    }
+
+    @Override
+    void resume() {
+        screen?.resume()
+    }
+
+    @Override
+    void dispose() {
+        screen?.hide()
+        batch.dispose()
     }
 }
