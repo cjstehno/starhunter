@@ -1,101 +1,51 @@
-group = 'com.stehno'
-version = '0.1-SNAPSHOT'
-
 buildscript {
     repositories {
-        jcenter()
-
-        maven {
-            url 'http://dl.bintray.com/cjstehno/public/'
-        }
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
+    dependencies {
+        classpath "com.badlogicgames.gdx:gdx-tools:1.7.1"
+    }
+}
+
+allprojects {
+    apply plugin: "idea"
+
+    version = '0.0.1'
+    ext {
+        appName = 'starhunter'
+        gdxVersion = '1.7.1'
+        roboVMVersion = '1.9.0'
+        box2DLightsVersion = '1.4'
+        ashleyVersion = '1.6.0'
+        aiVersion = '1.6.0'
+    }
+
+    repositories {
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+    }
+}
+
+project(":desktop") {
+    apply plugin: 'groovy'
 
     dependencies {
-        classpath 'org.gradle.api.plugins:gradle-izpack-plugin:0.2.3'
-        classpath 'gradle-natives:gradle-natives:0.1'
+        compile project(":core")
+        compile 'org.codehaus.groovy:groovy-all:2.4.5'
+        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        
+        runtime "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
     }
 }
 
-apply plugin:'izpack'
-apply plugin:'groovy'
-apply plugin:'application'
-apply plugin:'natives'
+project(":core") {
+    apply plugin: 'groovy'
 
-compileJava {
-    sourceCompatibility = '1.7'
-    targetCompatibility = '1.7'
-}
-
-mainClassName = 'com.stehno.starhunter.StarHunter'
-
-repositories {
-    jcenter()
-
-    maven {
-        url 'http://dl.bintray.com/cjstehno/public/'
+    dependencies {
+        compile 'org.codehaus.groovy:groovy-all:2.4.5'
+        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
     }
-}
-
-dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.2.2:indy'
-
-    compile "org.lwjgl.lwjgl:lwjgl:$lwjglVersion"
-    compile 'org.jcraft:jorbis:0.0.17'
-
-    compile(group: 'org.newdawn.slick', name: 'slick2d', version: '0.1', ext: 'jar') // in my bintray sandbox
-
-    // Testing
-
-    testCompile 'junit:junit:4.11'
-    testCompile 'org.mockito:mockito-all:1.9.5'
-
-    // Installer
-
-    izpack 'org.codehaus.izpack:izpack-standalone-compiler:4.3.4'
-}
-
-// FIXME: add other jars for cross-platform build
-natives {
-    jars = [
-        "lwjgl-platform-${lwjglVersion}-natives-windows.jar",
-        "jinput-platform-${jInputVersion}-natives-windows.jar"
-    ]
-    platforms = 'windows'
-}
-
-// FIXME: add current os helper for cross-platform
-test {
-    systemProperty 'java.library.path', file( "build/natives/windows" )
-}
-
-run {
-    systemProperty 'java.library.path', file( "build/natives/windows" )
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.12'
-}
-
-// Distribution and Installation
-
-// FIXME: address for cross-platform
-applicationDistribution.from( file( "build/natives/windows" ) ){
-    into 'bin/natives/3rdparty'
-}
-
-startScripts {
-    // Need to edit the bat file for the library path - injected by installer
-    doLast {
-        windowsScript.text = windowsScript.text.replace(
-            'set DEFAULT_JVM_OPTS=',
-            'set DEFAULT_JVM_OPTS=-Djava.library.path=$INSTALL_PATH\\$NATIVE_PATH\\'
-        )
-    }
-}
-
-izpack {
-    baseDir = file("$buildDir/install/starhunter")
-    installFile = file('src/installer/installer.xml')
-    compression = 'deflate'
-    compressionLevel = 9
 }

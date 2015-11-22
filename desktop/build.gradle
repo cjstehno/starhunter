@@ -1,0 +1,16 @@
+apply plugin: 'application'
+
+sourceCompatibility = 8
+mainClassName = 'com.packt.snake.desktop.DesktopLauncher'
+
+task dist(type: Jar) {
+    from files(sourceSets.main.output.classesDir)
+    from files(sourceSets.main.output.resourcesDir)
+    from {configurations.compile.collect {zipTree(it)}}
+
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+}
+
+dist.dependsOn classes

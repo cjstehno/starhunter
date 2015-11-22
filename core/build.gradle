@@ -1,0 +1,28 @@
+import com.badlogic.gdx.tools.texturepacker.TexturePacker
+
+sourceCompatibility = 8
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+def performPacking(File input, File output, String name) {
+    logger.lifecycle 'Packing: {} into {}', input, output
+
+    TexturePacker.Settings settings = new TexturePacker.Settings()
+    settings.maxWidth = 1024
+    settings.maxHeight = 1024
+    settings.duplicatePadding = false
+    settings.debug = project.hasProperty('debugPack')
+
+    TexturePacker.process(settings, input as String, output as String, name)
+}
+
+task pack << {
+    performPacking(file('raw-assets/images'), file('src/main/resources/images'), "${appName}.pack")
+    performPacking(file('raw-assets/images-ui'), file('src/main/resources/images'), "${appName}-ui.pack")
+}
+pack.dependsOn = ['cleanPack']
+
+task cleanPack << {
+    logger.lifecycle 'Cleaning packed images '
+
+    file('src/main/resources/images').deleteDir()
+}
